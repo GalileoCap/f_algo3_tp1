@@ -9,21 +9,21 @@ bool TourCounter::input() {
   _checkIns.resize(N_CHECKINS);
   for (int i = 0, row, col; i < N_CHECKINS; i++) {
     std::cin >> row >> col;
-    _checkIns[i] = std::make_pair(row, col);
+    _checkIns[i] = Coord(col, row);
   }
 
   _pos = START_POS;
   _step = 1;
-  _map[_pos.first][_pos.second] = true;
+  _map[_pos._y][_pos._x] = true;
   return true;
 }
 
 inline void TourCounter::setPos(const bool val) {
-  _map[_pos.first][_pos.second] = val;
+  _map[_pos._y][_pos._x] = val;
 }
 
 inline bool TourCounter::inRange() const {
-  return _pos.first >= 0 && _pos.first < _map.size() && _pos.second >= 0 && _pos.second < _map[0].size();
+  return _pos._y >= 0 && _pos._y < _map.size() && _pos._x >= 0 && _pos._x < _map[0].size();
 }
 
 inline bool TourCounter::atIthCheckIn(const int i) const {
@@ -36,17 +36,12 @@ inline bool TourCounter::checkChecks() const {
   return true; //A: Default to true
 }
 
-inline bool TourCounter::move(const Direction to) {
-  switch (to) {
-    case LEFT: _pos.second += -1; break;
-    case RIGHT: _pos.second += 1; break;
-    case UP: _pos.first += 1; break;
-    case DOWN: _pos.first += -1; break;
-  }
-  return inRange() && checkChecks() && !_map[_pos.first][_pos.second];
+inline bool TourCounter::move(const struct Coord& to) {
+  _pos += to;
+  return inRange() && checkChecks() && !_map[_pos._y][_pos._x];
 }
 
-inline int TourCounter::tryTo(const Direction to) {
+inline int TourCounter::tryTo(const struct Coord& to) {
   _step++;
   int res = 0;
   if (move(to)) { //A: Try moving to the left
@@ -54,7 +49,7 @@ inline int TourCounter::tryTo(const Direction to) {
     res += countTours(); //A: Count downstream
     setPos(false);
   }
-  move(anti(to)); _step--; //A: Undo this step
+  move(-to); _step--; //A: Undo this step
   return res;
 }
 
