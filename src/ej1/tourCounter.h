@@ -13,14 +13,14 @@ struct TourCounter {
   inline int tryTo(const struct Coord& to);
   inline bool move(const struct Coord& to);
 
+  inline bool inRange() const;
+  inline bool checkIn() const;
+
+  inline int nextCheckIn() const;
   inline void setPos(const bool val);
 
-  inline bool inRange() const;
-  inline bool atIthCheckIn(const int i) const;
-  inline bool checkChecks() const;
-
   std::vector<std::vector<bool>> _map; //U: Grid of booleans with true in each position if it's already been visited
-  std::vector<struct Coord> _checkIns; //U: Check-ins in order
+  std::vector<std::pair<struct Coord, int>> _checkIns; //U: Check-ins in order
   struct Coord _pos; //U: Current position of the robot
   int _step;
 };

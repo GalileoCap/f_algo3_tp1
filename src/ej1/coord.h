@@ -5,6 +5,8 @@
 struct Coord {
   Coord(const int x = 0, const int y = 0);
 
+  int manhattan(const struct Coord& Y) const;
+
   struct Coord operator-() const; //A: Negative
   struct Coord operator+(const struct Coord& Y) const;
   struct Coord& operator+=(const struct Coord& Y);

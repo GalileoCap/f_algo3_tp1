@@ -1,4 +1,5 @@
 #include "tourCounter.h"
+#include <utility>
 
 bool TourCounter::input() {
   int rows, cols;
@@ -6,11 +7,12 @@ bool TourCounter::input() {
   if (rows == 0 || cols == 0) return false;
   _map = std::vector<std::vector<bool>> (rows, std::vector<bool> (cols, false));
 
-  _checkIns.resize(N_CHECKINS);
+  _checkIns.resize(N_CHECKINS + 1);
   for (int i = 0, row, col; i < N_CHECKINS; i++) {
     std::cin >> row >> col;
-    _checkIns[i] = Coord(col, row);
+    _checkIns[i] = std::make_pair(Coord(col, row), (i+1) * rows * cols / 4);
   }
+  _checkIns[N_CHECKINS] = std::make_pair(END_POS, rows * cols);
 
   _pos = START_POS;
   _step = 1;
@@ -26,19 +28,24 @@ inline bool TourCounter::inRange() const {
   return _pos._y >= 0 && _pos._y < _map.size() && _pos._x >= 0 && _pos._x < _map[0].size();
 }
 
-inline bool TourCounter::atIthCheckIn(const int i) const {
-  return _step == ((i+1) * _map.size() * _map[0].size() / 4);
+inline int TourCounter::nextCheckIn() const {
+  for (int i = 0; i < N_CHECKINS; i++)
+    if (_step <= _checkIns[i].second) return i;
+  return N_CHECKINS;
 }
 
-inline bool TourCounter::checkChecks() const {
-  for (int i = 0; i < N_CHECKINS; i++)
-    if (atIthCheckIn(i)) return _pos == _checkIns[i]; //A: Should be at the i-th check-in
-  return true; //A: Default to true
+inline bool TourCounter::checkIn() const {
+  int next = nextCheckIn();
+  return _pos.manhattan(_checkIns[next].first) <= (_checkIns[next].second - _step);
 }
 
 inline bool TourCounter::move(const struct Coord& to) {
   _pos += to;
-  return inRange() && checkChecks() && !_map[_pos._y][_pos._x];
+  return (
+    inRange() &&
+    !_map[_pos._y][_pos._x] &&
+    checkIn()
+  );
 }
 
 inline int TourCounter::tryTo(const struct Coord& to) {
