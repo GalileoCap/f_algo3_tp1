@@ -23,15 +23,11 @@ bool TourCounter::input() {
   return true;
 }
 
-inline int TourCounter::nextCheckIn() const {
-  for (int i = 0; i < N_CHECKINS; i++)
-    if (_step <= _checkIns[i].second) return i;
-  return N_CHECKINS;
-}
-
 inline bool TourCounter::checkIn() const {
-  int next = nextCheckIn();
-  return _pos.manhattan(_checkIns[next].first) <= (_checkIns[next].second - _step);
+  bool res = true;
+  for (const auto& nextCheckIn : _checkIns)
+    res &= nextCheckIn.second < _step || _pos.manhattan(nextCheckIn.first) <= (nextCheckIn.second - _step);
+  return res;
 }
 
 inline bool TourCounter::move(const struct Coord& to) {
