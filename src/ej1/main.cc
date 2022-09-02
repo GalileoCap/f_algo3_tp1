@@ -1,5 +1,5 @@
-#include <iostream>
 #include "tourCounter.h"
+#include <iostream>
 
 int main() {
   TourCounter tc; int c = 1;

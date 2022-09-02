@@ -3,10 +3,9 @@
 bool TourCounter::input() {
   int rows, cols;
   std::cin >> rows >> cols;
-  if (rows == 0 || cols == 0) return false;
-  _map = std::vector<std::vector<bool>> (rows, std::vector<bool> (cols, false));
+  if (rows == 0 || cols == 0) return false; //A: Invalid size, assume end of test
 
-  _checkIns.resize(N_CHECKINS + 1);
+  _map = Map(rows, cols);
   for (int i = 0, row, col; i < N_CHECKINS; i++) {
     std::cin >> row >> col;
     _checkIns[i] = std::make_pair(Coord(col, row), (i+1) * rows * cols / 4);
@@ -15,20 +14,13 @@ bool TourCounter::input() {
 
   _pos = START_POS;
   _step = 1;
-  _map[_pos._y][_pos._x] = true;
+  _map.setAt(_pos, true);
+  //TODO: Skip first step
 #ifdef DEBUG
   _nodes = 0;
 #endif
 
   return true;
-}
-
-inline void TourCounter::setPos(const bool val) {
-  _map[_pos._y][_pos._x] = val;
-}
-
-inline bool TourCounter::inRange() const {
-  return _pos._y >= 0 && _pos._y < _map.size() && _pos._x >= 0 && _pos._x < _map[0].size();
 }
 
 inline int TourCounter::nextCheckIn() const {
@@ -45,8 +37,8 @@ inline bool TourCounter::checkIn() const {
 inline bool TourCounter::move(const struct Coord& to) {
   _pos += to;
   return (
-    inRange() &&
-    !_map[_pos._y][_pos._x] &&
+    _map.inRange(_pos) &&
+    !_map.getAt(_pos) &&
     checkIn()
   );
 }
@@ -55,9 +47,9 @@ inline int TourCounter::tryTo(const struct Coord& to) {
   _step++;
   int res = 0;
   if (move(to)) { //A: Try moving to the left
-    setPos(true);
+    _map.setAt(_pos, true);
     res += countTours(); //A: Count downstream
-    setPos(false);
+    _map.setAt(_pos, false);
   }
   move(-to); _step--; //A: Undo this step
   return res;
@@ -67,8 +59,8 @@ int TourCounter::countTours() {
 #ifdef DEBUG
   _nodes++;
 #endif
-  if (_step == (_map.size() * _map[0].size())) return _pos == END_POS; //A: Reached the last step
+  if (_step == (_map.rows * _map.cols)) return _pos == END_POS; //A: Reached the last step
   else {
-    return tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN); //A: Recursive step, try moving to all sides
+    return tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN); //A: Recursive step, try moving to all sides //TODO: Don't try if you can't //TODO: Don't try -last
   }
 }

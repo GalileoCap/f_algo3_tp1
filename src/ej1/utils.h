@@ -5,6 +5,8 @@
 #include <tuple>
 #include <string>
 
-#include "coord.h"
-
+using uint = unsigned int;
 using ulong = unsigned long;
+
+#include "map.h"
+#include "coord.h"

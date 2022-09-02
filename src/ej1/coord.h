@@ -11,6 +11,7 @@ struct Coord {
   struct Coord operator+(const struct Coord& Y) const;
   struct Coord& operator+=(const struct Coord& Y);
   bool operator==(const struct Coord& Y) const;
+  uint toUint(const uint cols) const; //TODO: Always uint
 
   int _x, _y;
 };

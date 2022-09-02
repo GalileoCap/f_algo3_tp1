@@ -23,3 +23,7 @@ struct Coord& Coord::operator+=(const struct Coord& Y) {
 bool Coord::operator==(const struct Coord& Y) const {
   return _x == Y._x && _y == Y._y;
 }
+
+uint Coord::toUint(const uint cols) const { //TODO: Always uint
+  return _x + cols * _y;
+}
