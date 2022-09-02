@@ -1,5 +1,5 @@
 C := g++
-CLFAGS := -std=c++11
+CLFAGS := -std=c++11 -lm -lcrypt -O2 -pipe
 
 SRCDIR := ./src
 BUILDDIR := ./build
