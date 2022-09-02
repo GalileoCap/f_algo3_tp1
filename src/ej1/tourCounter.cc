@@ -6,16 +6,17 @@ bool TourCounter::input() {
   if (rows == 0 || cols == 0) return false; //A: Invalid size, assume end of test
 
   _map = Map(rows, cols);
-  for (int i = 0, row, col; i < N_CHECKINS; i++) {
+  for (uint i = 1, row, col; i <= N_CHECKINS; i++) {
     std::cin >> row >> col;
-    _checkIns[i] = std::make_pair(Coord(col, row), (i+1) * rows * cols / 4);
+    _checkIns[i] = std::make_pair(Coord(col, row), (i) * rows * cols / 4);
   }
-  _checkIns[N_CHECKINS] = std::make_pair(END_POS, rows * cols);
+  _checkIns[0] = std::make_pair(START_POS, 0);
+  _checkIns[N_CHECKINS + 1] = std::make_pair(END_POS, rows * cols);
 
-  _pos = START_POS;
-  _step = 1;
+  _pos = START_POS + UP; //A: Skip first step
+  _map.setAt(START_POS, true);
   _map.setAt(_pos, true);
-  //TODO: Skip first step
+  _step = 2;
 #ifdef DEBUG
   _nodes = 0;
 #endif
