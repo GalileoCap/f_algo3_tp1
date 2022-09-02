@@ -2,6 +2,7 @@
 
 #include "map.h"
 #include "coord.h"
+#include "memory.h"
 #include "utils.h"
 
 struct TourCounter {
@@ -17,6 +18,7 @@ struct TourCounter {
   std::array<std::pair<struct Coord, int>, N_CHECKINS + 2> _checkIns; //U: Check-ins in order, including START_POS and END_POS
   struct Coord _pos; //U: Current position of the robot
   uint _step;
+  struct Memory<ulong> _memory;
 #ifdef DEBUG
   ulong _nodes;
 #endif
