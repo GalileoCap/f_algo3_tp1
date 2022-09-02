@@ -23,4 +23,7 @@ struct TourCounter {
   std::vector<std::pair<struct Coord, int>> _checkIns; //U: Check-ins in order
   struct Coord _pos; //U: Current position of the robot
   int _step;
+#ifdef DEBUG
+  ulong _nodes;
+#endif
 };

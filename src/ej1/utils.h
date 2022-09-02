@@ -6,3 +6,5 @@
 #include <string>
 
 #include "coord.h"
+
+using ulong = unsigned long;

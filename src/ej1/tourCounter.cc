@@ -1,5 +1,4 @@
 #include "tourCounter.h"
-#include <utility>
 
 bool TourCounter::input() {
   int rows, cols;
@@ -17,6 +16,10 @@ bool TourCounter::input() {
   _pos = START_POS;
   _step = 1;
   _map[_pos._y][_pos._x] = true;
+#ifdef DEBUG
+  _nodes = 0;
+#endif
+
   return true;
 }
 
@@ -61,6 +64,9 @@ inline int TourCounter::tryTo(const struct Coord& to) {
 }
 
 int TourCounter::countTours() {
+#ifdef DEBUG
+  _nodes++;
+#endif
   if (_step == (_map.size() * _map[0].size())) return _pos == END_POS; //A: Reached the last step
   else {
     return tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN); //A: Recursive step, try moving to all sides

@@ -18,7 +18,7 @@ builddir:
 
 ej%: 
 	$(C) $(CFLAGS) $($@FILES) -o $(BUILDDIR)/$@
-	$(C) $(CFLAGS) -g -D debug $($@FILES) -o $(BUILDDIR)/$@_debug
+	$(C) $(CFLAGS) -g -D DEBUG $($@FILES) -o $(BUILDDIR)/$@_debug
 
 clean:
 	rm -rf build 
