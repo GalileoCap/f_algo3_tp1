@@ -1,11 +1,8 @@
 #pragma once
 
-#include "utils.h"
 #include "map.h"
-
-#define N_CHECKINS 3
-#define START_POS Coord(0, 0)
-#define END_POS Coord(1, 0)
+#include "coord.h"
+#include "utils.h"
 
 struct TourCounter {
   bool input();

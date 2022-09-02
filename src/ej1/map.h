@@ -1,5 +1,6 @@
 #pragma once
 
+#include "coord.h"
 #include "utils.h"
 
 struct Map {
@@ -9,6 +10,8 @@ struct Map {
   bool getAt(const struct Coord& pos) const;
 
   bool inRange(const struct Coord& pos) const;
+  bool isBlocked(const struct Coord& pos) const;
+  bool check(const struct Coord& pos) const;
   
   ulong hash;
   uint rows, cols;

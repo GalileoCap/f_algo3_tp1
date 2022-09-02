@@ -8,5 +8,6 @@
 using uint = unsigned int;
 using ulong = unsigned long;
 
-#include "map.h"
-#include "coord.h"
+#define N_CHECKINS 3
+#define START_POS Coord(0, 0)
+#define END_POS Coord(1, 0)

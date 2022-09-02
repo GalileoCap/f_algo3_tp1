@@ -37,8 +37,7 @@ inline bool TourCounter::checkIn() const {
 inline bool TourCounter::move(const struct Coord& to) {
   _pos += to;
   return (
-    _map.inRange(_pos) &&
-    !_map.getAt(_pos) &&
+    _map.check(_pos) &&
     checkIn()
   );
 }
@@ -61,6 +60,6 @@ int TourCounter::countTours() {
 #endif
   if (_step == (_map.rows * _map.cols)) return _pos == END_POS; //A: Reached the last step
   else {
-    return tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN); //A: Recursive step, try moving to all sides //TODO: Don't try if you can't //TODO: Don't try -last
+    return tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN); //A: Recursive step, try moving to all sides
   }
 }
