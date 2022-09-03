@@ -1,18 +1,19 @@
 #include "map.h"
 #include "utils.h"
 
-Map::Map(const uint _rows, const uint _cols) : map(_rows, std::vector<bool> (_cols, false)), rows(_rows), cols(_cols) {}
+Map::Map(const uint _rows, const uint _cols) : hash(0), rows(_rows), cols(_cols) {}
 
 void Map::setAt(const struct Coord& pos, const bool val) {
-  map[pos._y][pos._x] = val;
+  if (val) hash |= pos.toMap(cols);
+  else hash &= ~pos.toMap(cols);
 }
 
 bool Map::getAt(const struct Coord& pos) const {
-  return map[pos._y][pos._x];
+  return bool(hash & pos.toMap(cols));
 }
 
 bool Map::inRange(const struct Coord& pos) const {
-  return pos._x >= 0 && pos._x < cols && pos._y >= 0 && pos._y < rows;
+  return pos.x >= 0 && pos.x < cols && pos.y >= 0 && pos.y < rows;
 }
 
 bool Map::isBlocked(const struct Coord& pos) const {

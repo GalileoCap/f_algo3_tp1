@@ -13,6 +13,6 @@ struct Map {
   bool isBlocked(const struct Coord& pos) const;
   bool check(const struct Coord& pos) const;
   
-  std::vector<std::vector<bool>> map;
+  ulong hash;
   uint rows, cols;
 };

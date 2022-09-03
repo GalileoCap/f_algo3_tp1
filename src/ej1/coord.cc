@@ -1,17 +1,17 @@
 #include "coord.h"
 
-Coord::Coord(const int x, const int y) : _x(x), _y(y) {}
+Coord::Coord(const uint _x, const uint _y) : x(_x), y(_y) {}
 
 uint Coord::manhattan(const struct Coord& Y) const {
-  return abs(_x - Y._x) + abs(_y - Y._y);
+  return (x > Y.x ? x - Y.x : Y.x - x) + (y > Y.y ? y - Y.y : Y.y - y);
 }
 
 struct Coord Coord::operator-() const { //A: Negative
-  return Coord(-_x, -_y);
+  return Coord(-x, -y);
 }
 
 struct Coord Coord::operator+(const struct Coord& Y) const {
-  return Coord(_x + Y._x, _y + Y._y);
+  return Coord(x + Y.x, y + Y.y);
 }
 
 struct Coord Coord::operator-(const struct Coord& Y) const {
@@ -29,9 +29,14 @@ struct Coord& Coord::operator-=(const struct Coord& Y) {
 }
 
 bool Coord::operator==(const struct Coord& Y) const {
-  return _x == Y._x && _y == Y._y;
+  return x == Y.x && y == Y.y;
 }
 
-uint Coord::toUint(const uint cols) const { //TODO: Always uint
-  return _x + cols * _y;
+uint Coord::toIdx(const uint cols) const {
+  return x + cols * y;
+}
+
+ulong Coord::toMap(const uint cols) const {
+  ulong res = 1;
+  return (res << (ulong)toIdx(cols));
 }

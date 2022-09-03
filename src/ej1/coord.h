@@ -3,7 +3,7 @@
 #include "utils.h"
 
 struct Coord {
-  Coord(const int x = 0, const int y = 0);
+  Coord(const uint _x = 0, const uint _y = 0);
 
   uint manhattan(const struct Coord& Y) const;
 
@@ -13,9 +13,10 @@ struct Coord {
   struct Coord& operator+=(const struct Coord& Y);
   struct Coord& operator-=(const struct Coord& Y);
   bool operator==(const struct Coord& Y) const;
-  uint toUint(const uint cols) const; //TODO: Always uint
+  uint toIdx(const uint cols) const;
+  ulong toMap(const uint cols) const;
 
-  int _x, _y;
+  uint x, y;
 };
 
 #define LEFT Coord(-1, 0)
