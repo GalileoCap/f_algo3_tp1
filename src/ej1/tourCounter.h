@@ -20,6 +20,6 @@ struct TourCounter {
   uint _step;
   struct Memory<ulong> _memory;
 #ifdef DEBUG
-  ulong _nodes;
+  ulong _nodes, _repes;
 #endif
 };

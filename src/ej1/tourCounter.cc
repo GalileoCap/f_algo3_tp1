@@ -13,13 +13,14 @@ bool TourCounter::input() { //U: Reads the map's dimensions and check-ins from s
   _checkIns[0] = std::make_pair(START_POS, 0); //A: Include the beginning and ending positions
   _checkIns[N_CHECKINS + 1] = std::make_pair(END_POS, rows * cols);
 
-  _pos = START_POS + UP; //A: Skip first step
+  _pos = START_POS + UP; //A: Skip first step //TODO: undo
   _map.setAt(START_POS, true);
   _map.setAt(_pos, true);
   _step = 2;
-  _memory = Memory<ulong>(rows * cols, rows * cols, -1);
+  _memory = Memory<ulong>(rows * cols, -1);
 #ifdef DEBUG
   _nodes = 0;
+  _repes = 0;
 #endif
 
   return true;
@@ -58,11 +59,16 @@ ulong TourCounter::countTours() {
   if (_step == (_map.rows * _map.cols)) //A: Reached the last step
     return _pos == END_POS;
   else { //A: Recursive step, try moving to all sides
-    ulong *res = _memory.getAt(_step - 1, _pos.toUint(_map.cols), _map.hash);
+    ulong x = _pos.toUint(_map.cols), y = _map.hash;
+    ulong *res = _memory.getAt(x, y);
     if (res == nullptr) {
       res = new ulong(tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN));
-      _memory.setAt(_step - 1, _pos.toUint(_map.cols), _map.hash, res); //TODO: Skip find in setAt
+      _memory.setAt(x, y, res); //TODO: Skip find in setAt
+#ifdef DEBUG
+    } else _repes++;
+#else
     }
+#endif
     return *res;
   }
 }

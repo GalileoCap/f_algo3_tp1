@@ -6,7 +6,7 @@ int main() {
   while (tc.input()) {
     std::cout << "Case " << c++ << ": " << tc.countTours() << std::endl;
 #ifdef DEBUG
-    std::cout << tc._nodes << std::endl;
+    std::cout << tc._nodes << " " << tc._repes << std::endl;
 #endif
   }
   return 0;
