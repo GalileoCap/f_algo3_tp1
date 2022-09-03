@@ -13,10 +13,9 @@ bool TourCounter::input() { //U: Reads the map's dimensions and check-ins from s
   _checkIns[0] = std::make_pair(START_POS, 0); //A: Include the beginning and ending positions
   _checkIns[N_CHECKINS + 1] = std::make_pair(END_POS, rows * cols);
 
-  _pos = START_POS + UP; //A: Skip first step //TODO: undo
-  _map.setAt(START_POS, true);
+  _pos = START_POS;
   _map.setAt(_pos, true);
-  _step = 2;
+  _step = 1;
   _memory = Memory<ulong>(rows * cols, -1);
 #ifdef DEBUG
   _nodes = 0;
@@ -28,11 +27,9 @@ bool TourCounter::input() { //U: Reads the map's dimensions and check-ins from s
 
 inline bool TourCounter::checkChecks() const { //U: Is in time for the check-ins
   bool res = true;
-  for (const auto& nextCheckIn : _checkIns) //TODO: Unroll
-    res &= (
-      nextCheckIn.second < _step || //A: Has already checked-in
-      _pos.manhattan(nextCheckIn.first) <= (nextCheckIn.second - _step) //A: Is in time for this check-in
-    );
+  for (const auto& checkIn : _checkIns) //TODO: Unroll
+    if (checkIn.second < _step) res &= _map.getAt(checkIn.first); //A: Should've checked-in
+    else res &= (!_map.getAt(checkIn.first) && _pos.manhattan(checkIn.first) <= (checkIn.second - _step)); //A: Hasn't been there and is in range for this check-in
   return res;
 }
 
