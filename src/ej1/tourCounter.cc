@@ -16,10 +16,8 @@ bool TourCounter::input() { //U: Reads the map's dimensions and check-ins from s
   _pos = START_POS;
   _map.setAt(_pos, true);
   _step = 1;
-  _memory = Memory<ulong>(rows * cols, -1);
 #ifdef DEBUG
   _nodes = 0;
-  _repes = 0;
 #endif
 
   return true;
@@ -55,17 +53,5 @@ ulong TourCounter::countTours() {
 #endif
   if (_step == (_map.rows * _map.cols)) //A: Reached the last step
     return _pos == END_POS;
-  else { //A: Recursive step, try moving to all sides
-    ulong x = _pos.toUint(_map.cols), y = _map.hash;
-    ulong *res = _memory.getAt(x, y);
-    if (res == nullptr) {
-      res = new ulong(tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN));
-      _memory.setAt(x, y, res); //TODO: Skip find in setAt
-#ifdef DEBUG
-    } else _repes++;
-#else
-    }
-#endif
-    return *res;
-  }
+  else return tryTo(LEFT) + tryTo(RIGHT) + tryTo(UP) + tryTo(DOWN); //A: Recursive step, try moving to all sides
 }
