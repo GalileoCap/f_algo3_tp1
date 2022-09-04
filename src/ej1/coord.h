@@ -5,7 +5,7 @@
 struct Coord {
   Coord(const uint _x = 0, const uint _y = 0);
 
-  uint manhattan(const struct Coord& Y) const;
+  uint manhattan(const struct Coord& Y) const; //U: Manhattan distance
 
   struct Coord operator-() const; //A: Negative
   struct Coord operator+(const struct Coord& Y) const;
@@ -13,8 +13,9 @@ struct Coord {
   struct Coord& operator+=(const struct Coord& Y);
   struct Coord& operator-=(const struct Coord& Y);
   bool operator==(const struct Coord& Y) const;
+  bool operator!=(const struct Coord& Y) const;
   uint toIdx(const uint cols) const;
-  ulong toMap(const uint cols) const;
+  ulong toMap(const uint cols) const; //U: To get the state on the map //TODO: Always hash
 
   uint x, y;
 };

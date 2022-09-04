@@ -2,8 +2,8 @@
 
 Coord::Coord(const uint _x, const uint _y) : x(_x), y(_y) {}
 
-uint Coord::manhattan(const struct Coord& Y) const {
-  return (x > Y.x ? x - Y.x : Y.x - x) + (y > Y.y ? y - Y.y : Y.y - y);
+uint Coord::manhattan(const struct Coord& Y) const { //U: Manhattan distance
+  return (x > Y.x ? x - Y.x : Y.x - x) + (y > Y.y ? y - Y.y : Y.y - y); //A: abs(dx) + abs(dy)
 }
 
 struct Coord Coord::operator-() const { //A: Negative
@@ -24,12 +24,16 @@ struct Coord& Coord::operator+=(const struct Coord& Y) {
 }
 
 struct Coord& Coord::operator-=(const struct Coord& Y) {
-  *this = *this - Y;
+  *this += -Y;
   return *this;
 }
 
 bool Coord::operator==(const struct Coord& Y) const {
   return x == Y.x && y == Y.y;
+}
+
+bool Coord::operator!=(const struct Coord& Y) const {
+  return !(*this == Y);
 }
 
 uint Coord::toIdx(const uint cols) const {

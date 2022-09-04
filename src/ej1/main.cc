@@ -2,9 +2,9 @@
 #include <iostream>
 
 int main() {
-  TourCounter tc; int c = 1;
+  TourCounter tc; ulong c = 0;
   while (tc.input()) {
-    std::cout << "Case " << c++ << ": " << tc.countTours() << std::endl;
+    std::cout << "Case " << ++c << ": " << tc.countTours() << std::endl;
 #ifdef DEBUG
     std::cout << tc._nodes << std::endl;
 #endif
