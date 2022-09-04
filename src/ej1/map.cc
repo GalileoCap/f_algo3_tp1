@@ -16,12 +16,8 @@ inline bool Map::inRange(const struct Coord& pos) const {
   return pos.x >= 0 && pos.x < cols && pos.y >= 0 && pos.y < rows;
 }
 
-inline bool Map::atWall(const struct Coord& pos) const {
-  return !(inRange(pos + LEFT) && inRange(pos + RIGHT)) || !(inRange(pos + UP) && inRange(pos + DOWN));
-}
-
-inline bool Map::atCorner(const struct Coord& pos) const {
-  return !(inRange(pos + LEFT) && inRange(pos + RIGHT)) && !(inRange(pos + UP) && inRange(pos + DOWN));
+inline bool Map::canGo(const struct Coord& pos) const {
+  return inRange(pos) && !getAt(pos);
 }
 
 inline uint Map::freeNeighbors(const struct Coord& pos) const {
@@ -43,9 +39,9 @@ inline bool Map::isBlocked(const struct Coord& pos) const {
 }
 
 inline bool Map::willSplit(const struct Coord& pos) const { //U: Setting this position will split the map in two
-  bool res = atWall(pos) && !atCorner(pos);
-  if (res && inRange(pos + LEFT) && inRange(pos + RIGHT)) res &= !getAt(pos + LEFT) && !getAt(pos + RIGHT);
-  if (res && inRange(pos + UP) && inRange(pos + DOWN)) res &= !getAt(pos + UP) && !getAt(pos + DOWN);
+  bool res = false;
+  if (!res && !canGo(pos + LEFT) && !canGo(pos + RIGHT)) res |= canGo(pos + UP) && canGo(pos + DOWN);
+  if (!res && !canGo(pos + UP) && !canGo(pos + DOWN)) res |= canGo(pos + LEFT) && canGo(pos + RIGHT);
   return res;
 }
 

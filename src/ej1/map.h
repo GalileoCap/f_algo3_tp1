@@ -10,8 +10,7 @@ struct Map {
   bool getAt(const struct Coord& pos) const;
 
   inline bool inRange(const struct Coord& pos) const;
-  inline bool atWall(const struct Coord& pos) const;
-  inline bool atCorner(const struct Coord& pos) const;
+  inline bool canGo(const struct Coord& pos) const;
   inline uint freeNeighbors(const struct Coord& pos) const;
 
   inline bool isBlocked(const struct Coord& pos) const; //U: This position doesn't have an escape
