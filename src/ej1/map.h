@@ -10,7 +10,10 @@ struct Map {
   bool getAt(const struct Coord& pos) const;
 
   bool inRange(const struct Coord& pos) const;
+  bool atWall(const struct Coord& pos) const;
+  bool atCorner(const struct Coord& pos) const;
   bool isBlocked(const struct Coord& pos) const;
+  bool willSplit(const struct Coord& pos) const;
   bool check(const struct Coord& pos) const;
   
   ulong hash;
