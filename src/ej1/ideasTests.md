@@ -293,58 +293,383 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 ```cpp
   TEST_C(CoordenadaTest, -operator);
 ```
-- **Bla bla bla:**
   ```cpp
-    // inserte su test aqui 
-  ```
+    // Nulo
+    Coord inicio1 = Coord(0,0);
+    Coord final1 = Coord(0,0);
+    // Todos positivos
+    Coord inicio2 = Coord(2,3);
+    Coord final2 = Coord(-2,-3);
+    // Todos negativos
+    Coord inicio3 = Coord(4,2);
+    Coord final3 = Coord(-4,-2);
+    // X positivo, Y negativo
+    Coord inicio4 = Coord(1,-5);
+    Coord final4 = Coord(-1,5);
+    // X negativo, Y positivo
+    Coord inicio5 = Coord(-3,2);
+    Coord final5 = Coord(3,-2);
+  
+    -inicio1;
+    -inicio2;
+    -inicio3;
+    -inicio4;
+    -inicio5;
+    
+    // Estan bien los "EXPECT_EQ"? O primero deberia utilizar el comando == de 
+    // coord y luego poner "EXPECT_TRUE"?
+    EXPECT_EQ(inicio1, final1);
+    EXPECT_EQ(inicio2, final2);
+    EXPECT_EQ(inicio3, final3);
+    EXPECT_EQ(inicio4, final4);
+    EXPECT_EQ(inicio5, final5);
+ ```
 #### operator+(Coord& Y)
 ```cpp
   TEST_C(CoordenadaTest, operator+);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+```cpp
+  // Nulo
+  Coord primero1 = Coord(4,3);
+  Coord primero2 = Coord(0,0);
+  Coord finalPrimero = Coord(4,3);
+  // Nulo bis
+  Coord segundo1 = Coord(-2,-3);
+  Coord segundo2 = Coord(0,0);
+  Coord finalSegundo = Coord(-2,-3);
+  // Todos positivos
+  Coord tercero1 = Coord(4,2);
+  Coord tercero2 = Coord(1,3);
+  Coord finalTercero = Coord(5,5);
+  // Todos negativos
+  Coord cuarto1 = Coord(-1,-5);
+  Coord cuarto2 = Coord(1,5);
+  Coord finalCuarto = Coord(0,0);
+  // X positivo, Y negativo
+  Coord quinto1 = Coord(3,-7);
+  Coord quinto2 = Coord(1,-1);
+  Coord finalQuinto = Coord(4,-8);
+  // X negativo, Y positivo
+  Coord sexto1 = Coord(-3,2);
+  Coord sexto2 = Coord(6,-2);
+  Coord finalSexto = Coord(3,0);
+
+  primero1 = primero1 + primero2;
+  segundo1 = segundo1 + segundo2;
+  tercero1 = tercero1 + tercero2;
+  cuarto1 = cuarto1 + cuarto2;
+  quinto1 = quinto1 + quinto2;
+  sexto1 = sexto1 + sexto2;
+  
+  // Estan bien los "EXPECT_EQ"? O primero deberia utilizar el comando == de 
+  // coord y luego poner "EXPECT_TRUE"?
+  EXPECT_EQ(primero1, finalPrimero);
+  EXPECT_EQ(segundo1, finalSegundo);
+  EXPECT_EQ(tercero1, finalTercero);
+  EXPECT_EQ(cuarto1, finalCuarto);
+  EXPECT_EQ(quinto1, finalQuinto);
+  EXPECT_EQ(sexto1, finalSexto);
+```
 #### operator-(Coord& Y)
 ```cpp
   TEST_C(CoordenadaTest, operator-);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+*Mismas variables que en el test del **operador+**. Aun asi, cabe aclarar que los resultados son distintos ya que se trata de una **resta** y no de una **suma**.*
+```cpp
+  // Nulo
+  Coord primero1 = Coord(4,3);
+  Coord primero2 = Coord(0,0);
+  Coord finalPrimero = Coord(4,3);
+  // Nulo bis
+  Coord segundo1 = Coord(-2,-3);
+  Coord segundo2 = Coord(0,0);
+  Coord finalSegundo = Coord(-2,-3);
+  // Todos positivos
+  Coord tercero1 = Coord(4,2);
+  Coord tercero2 = Coord(1,3);
+  Coord finalTercero = Coord(3,-1);
+  // Todos negativos
+  Coord cuarto1 = Coord(-1,-5);
+  Coord cuarto2 = Coord(1,5);
+  Coord finalCuarto = Coord(-2,-10);
+  // X positivo, Y negativo
+  Coord quinto1 = Coord(3,-7);
+  Coord quinto2 = Coord(1,-1);
+  Coord finalQuinto = Coord(2,-6);
+  // X negativo, Y positivo
+  Coord sexto1 = Coord(-3,2);
+  Coord sexto2 = Coord(6,-2);
+  Coord finalSexto = Coord(-9,4);
+
+  primero1 = primero1 - primero2;
+  segundo1 = segundo1 - segundo2;
+  tercero1 = tercero1 - tercero2;
+  cuarto1 = cuarto1 - cuarto2;
+  quinto1 = quinto1 - quinto2;
+  sexto1 = sexto1 - sexto2;
+  
+  // Estan bien los "EXPECT_EQ"? O primero deberia utilizar el comando == de 
+  // coord y luego poner "EXPECT_TRUE"?
+  EXPECT_EQ(primero1, finalPrimero);
+  EXPECT_EQ(segundo1, finalSegundo);
+  EXPECT_EQ(tercero1, finalTercero);
+  EXPECT_EQ(cuarto1, finalCuarto);
+  EXPECT_EQ(quinto1, finalQuinto);
+  EXPECT_EQ(sexto1, finalSexto);
+```
 #### operator+=(Coord& Y)
 ```cpp
   TEST_C(CoordenadaTest, operator+=);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+```cpp
+  // Nulo
+  Coord primero1 = Coord(4,3);
+  Coord primero2 = Coord(0,0);
+  Coord finalPrimero = Coord(4,3);
+  // Nulo bis
+  Coord segundo1 = Coord(-2,-3);
+  Coord segundo2 = Coord(0,0);
+  Coord finalSegundo = Coord(-2,-3);
+  // Todos positivos
+  Coord tercero1 = Coord(4,2);
+  Coord tercero2 = Coord(1,3);
+  Coord finalTercero = Coord(5,5);
+  // Todos negativos
+  Coord cuarto1 = Coord(-1,-5);
+  Coord cuarto2 = Coord(1,5);
+  Coord finalCuarto = Coord(0,0);
+  // X positivo, Y negativo
+  Coord quinto1 = Coord(3,-7);
+  Coord quinto2 = Coord(1,-1);
+  Coord finalQuinto = Coord(4,-8);
+  // X negativo, Y positivo
+  Coord sexto1 = Coord(-3,2);
+  Coord sexto2 = Coord(6,-2);
+  Coord finalSexto = Coord(3,0);
+
+  primero1 += primero2;
+  segundo1 += segundo2;
+  tercero1 = tercero2;
+  cuarto1 = cuarto2;
+  quinto1 = quinto2;
+  sexto1 = sexto2;
+  
+  // Estan bien los "EXPECT_EQ"? O primero deberia utilizar el comando == de 
+  // coord y luego poner "EXPECT_TRUE"?
+  EXPECT_EQ(primero1, finalPrimero);
+  EXPECT_EQ(segundo1, finalSegundo);
+  EXPECT_EQ(tercero1, finalTercero);
+  EXPECT_EQ(cuarto1, finalCuarto);
+  EXPECT_EQ(quinto1, finalQuinto);
+  EXPECT_EQ(sexto1, finalSexto);
+```
 #### operator-=(Coord& Y)
 ```cpp
   TEST_C(CoordenadaTest, operator-=);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+```cpp
+  // Nulo
+  Coord primero1 = Coord(4,3);
+  Coord primero2 = Coord(0,0);
+  Coord finalPrimero = Coord(4,3);
+  // Nulo bis
+  Coord segundo1 = Coord(-2,-3);
+  Coord segundo2 = Coord(0,0);
+  Coord finalSegundo = Coord(-2,-3);
+  // Todos positivos
+  Coord tercero1 = Coord(4,2);
+  Coord tercero2 = Coord(1,3);
+  Coord finalTercero = Coord(3,-1);
+  // Todos negativos
+  Coord cuarto1 = Coord(-1,-5);
+  Coord cuarto2 = Coord(1,5);
+  Coord finalCuarto = Coord(-2,-10);
+  // X positivo, Y negativo
+  Coord quinto1 = Coord(3,-7);
+  Coord quinto2 = Coord(1,-1);
+  Coord finalQuinto = Coord(2,-6);
+  // X negativo, Y positivo
+  Coord sexto1 = Coord(-3,2);
+  Coord sexto2 = Coord(6,-2);
+  Coord finalSexto = Coord(-9,4);
+
+  primero1 -= primero2;
+  segundo1 -= segundo2;
+  tercero1 -= tercero2;
+  cuarto1 -= cuarto2;
+  quinto1 -= quinto2;
+  sexto1 -= sexto2;
+  
+  // Estan bien los "EXPECT_EQ"? O primero deberia utilizar el comando == de 
+  // coord y luego poner "EXPECT_TRUE"?
+  EXPECT_EQ(primero1, finalPrimero);
+  EXPECT_EQ(segundo1, finalSegundo);
+  EXPECT_EQ(tercero1, finalTercero);
+  EXPECT_EQ(cuarto1, finalCuarto);
+  EXPECT_EQ(quinto1, finalQuinto);
+  EXPECT_EQ(sexto1, finalSexto);
+```
 #### operator==(Coord& Y)
 ```cpp
   TEST_C(CoordenadaTest, operator==);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+```cpp
+  // Nulo
+  Coord primero = Coord(0,0);
+  Coord primeroIgual = Coord(0,0);
+  Coord primeroDesigualPositivo = Coord(1,2);
+  Coord primeroDesigualNegativo = Coord(-1,-2);
+  Coord primeroDesigualPosNeg = Coord(1,-2);
+  Coord primeroDesigualNegPos = Coord(-1,2);
+  // Todos positivos
+  Coord segundo = Coord(2,3);
+  Coord segundoIgual = Coord(2,3);
+  Coord segundoDesigualPositivo = Coord(3,3);
+  Coord segundoDesigualNegativo = Coord(-2,-3);
+  Coord segundoDesigualPosNeg = Coord(1,-2);
+  Coord segundoDesigualNegPos = Coord(-1,2);
+  Coord segundoDesigualNulo = Coord(0,0);
+  // Todos negativos
+  Coord tercero = Coord(-1,-5);
+  Coord terceroIgual = Coord(-1,-5);
+  Coord terceroDesigualPositivo = Coord(1,5);
+  Coord terceroDesigualNegativo = Coord(-3,-10);
+  Coord terceroDesigualPosNeg = Coord(6,-5);
+  Coord terceroDesigualNegPos = Coord(-1,0);
+  Coord terceroDesigualNulo = Coord(0,0);
+  // X positivo, Y negativo
+  Coord cuarto = Coord(0,-5);
+  Coord cuartoIgual = Coord(0,-5);
+  Coord cuartoDesigualPositivo = Coord(5,2);
+  Coord cuartoDesigualNegativo = Coord(-3,-10);
+  Coord cuartoDesigualPosNeg = Coord(6,-2);
+  Coord cuartoDesigualNegPos = Coord(-1,0);
+  Coord cuartoDesigualNulo = Coord(0,0);
+  // X negativo, Y positivo
+  Coord quinto = Coord(-1,2);
+  Coord quintoIgual = Coord(-1,2);
+  Coord quintoDesigualPositivo = Coord(5,3);
+  Coord quintoDesigualNegativo = Coord(-3,-10);
+  Coord quintoDesigualPosNeg = Coord(6,-2);
+  Coord quintoDesigualNegPos = Coord(1,-2);
+  Coord quintoDesigualNulo = Coord(0,0);
+  
+  // Resultados nulo
+  EXPECT_TRUE(primero == primeroIgual);
+  EXPECT_FALSE(primero == primeroDesigualPositivo);
+  EXPECT_FALSE(primero == primeroDesigualNegativo);
+  EXPECT_FALSE(primero == primeroDesigualPosNeg);
+  EXPECT_FALSE(primero == primeroDesigualNegPos);
+  // Resultados todos positivos
+  EXPECT_TRUE(segundo == segundoIgual);
+  EXPECT_FALSE(segundo == segundoDesigualPositivo);
+  EXPECT_FALSE(segundo == segundoDesigualNegativo);
+  EXPECT_FALSE(segundo == segundoDesigualPosNeg);
+  EXPECT_FALSE(segundo == segundoDesigualNegPos);
+  EXPECT_FALSE(segundo == segundoDesigualNulo);
+  // Resultados todos negativos
+  EXPECT_TRUE(tercero == terceroIgual);
+  EXPECT_FALSE(tercero == terceroDesigualPositivo);
+  EXPECT_FALSE(tercero == terceroDesigualNegativo);
+  EXPECT_FALSE(tercero == terceroDesigualPosNeg);
+  EXPECT_FALSE(tercero == terceroDesigualNegPos);
+  EXPECT_FALSE(tercero == terceroDesigualNulo);
+  // Resultados X positivo, Y negativo
+  EXPECT_TRUE(cuarto == cuartoIgual);
+  EXPECT_FALSE(cuarto == cuartoDesigualPositivo);
+  EXPECT_FALSE(cuarto == cuartoDesigualNegativo);
+  EXPECT_FALSE(cuarto == cuartoDesigualPosNeg);
+  EXPECT_FALSE(cuarto == cuartoDesigualNegPos);
+  EXPECT_FALSE(cuarto == cuartoDesigualNulo);
+  // Resultados X negativo, Y positivo
+  EXPECT_TRUE(quinto == quintoIgual);
+  EXPECT_FALSE(quinto == quintoDesigualPositivo);
+  EXPECT_FALSE(quinto == quintoDesigualNegativo);
+  EXPECT_FALSE(quinto == quintoDesigualPosNeg);
+  EXPECT_FALSE(quinto == quintoDesigualNegPos);
+  EXPECT_FALSE(quinto == quintoDesigualNulo);
+```
 #### operator!=(Coord& Y)
 ```cpp
   TEST_C(CoordenadaTest, operator!=);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+*Mismas variablesdel test del **operador ==**, pero ahora evaluandolas con **!=**.*
+```cpp
+  // Nulo
+  Coord primero = Coord(0,0);
+  Coord primeroIgual = Coord(0,0);
+  Coord primeroDesigualPositivo = Coord(1,2);
+  Coord primeroDesigualNegativo = Coord(-1,-2);
+  Coord primeroDesigualPosNeg = Coord(1,-2);
+  Coord primeroDesigualNegPos = Coord(-1,2);
+  // Todos positivos
+  Coord segundo = Coord(2,3);
+  Coord segundoIgual = Coord(2,3);
+  Coord segundoDesigualPositivo = Coord(3,3);
+  Coord segundoDesigualNegativo = Coord(-2,-3);
+  Coord segundoDesigualPosNeg = Coord(1,-2);
+  Coord segundoDesigualNegPos = Coord(-1,2);
+  Coord segundoDesigualNulo = Coord(0,0);
+  // Todos negativos
+  Coord tercero = Coord(-1,-5);
+  Coord terceroIgual = Coord(-1,-5);
+  Coord terceroDesigualPositivo = Coord(1,5);
+  Coord terceroDesigualNegativo = Coord(-3,-10);
+  Coord terceroDesigualPosNeg = Coord(6,-5);
+  Coord terceroDesigualNegPos = Coord(-1,0);
+  Coord terceroDesigualNulo = Coord(0,0);
+  // X positivo, Y negativo
+  Coord cuarto = Coord(0,-5);
+  Coord cuartoIgual = Coord(0,-5);
+  Coord cuartoDesigualPositivo = Coord(5,2);
+  Coord cuartoDesigualNegativo = Coord(-3,-10);
+  Coord cuartoDesigualPosNeg = Coord(6,-2);
+  Coord cuartoDesigualNegPos = Coord(-1,0);
+  Coord cuartoDesigualNulo = Coord(0,0);
+  // X negativo, Y positivo
+  Coord quinto = Coord(-1,2);
+  Coord quintoIgual = Coord(-1,2);
+  Coord quintoDesigualPositivo = Coord(5,3);
+  Coord quintoDesigualNegativo = Coord(-3,-10);
+  Coord quintoDesigualPosNeg = Coord(6,-2);
+  Coord quintoDesigualNegPos = Coord(1,-2);
+  Coord quintoDesigualNulo = Coord(0,0);
+  
+  // Resultados nulo
+  EXPECT_FALSE(primero != primeroIgual);
+  EXPECT_TRUE(primero != primeroDesigualPositivo);
+  EXPECT_TRUE(primero != primeroDesigualNegativo);
+  EXPECT_TRUE(primero != primeroDesigualPosNeg);
+  EXPECT_TRUE(primero != primeroDesigualNegPos);
+  // Resultados todos positivos
+  EXPECT_FALSE(segundo != segundoIgual);
+  EXPECT_TRUE(segundo != segundoDesigualPositivo);
+  EXPECT_TRUE(segundo != segundoDesigualNegativo);
+  EXPECT_TRUE(segundo != segundoDesigualPosNeg);
+  EXPECT_TRUE(segundo != segundoDesigualNegPos);
+  EXPECT_TRUE(segundo != segundoDesigualNulo);
+  // Resultados todos negativos
+  EXPECT_FALSE(tercero != terceroIgual);
+  EXPECT_TRUE(tercero != terceroDesigualPositivo);
+  EXPECT_TRUE(tercero != terceroDesigualNegativo);
+  EXPECT_TRUE(tercero != terceroDesigualPosNeg);
+  EXPECT_TRUE(tercero != terceroDesigualNegPos);
+  EXPECT_TRUE(tercero != terceroDesigualNulo);
+  // Resultados X positivo, Y negativo
+  EXPECT_FALSE(cuarto != cuartoIgual);
+  EXPECT_TRUE(cuarto != cuartoDesigualPositivo);
+  EXPECT_TRUE(cuarto != cuartoDesigualNegativo);
+  EXPECT_TRUE(cuarto != cuartoDesigualPosNeg);
+  EXPECT_TRUE(cuarto != cuartoDesigualNegPos);
+  EXPECT_TRUE(cuarto != cuartoDesigualNulo);
+  // Resultados X negativo, Y positivo
+  EXPECT_FALSE(quinto != quintoIgual);
+  EXPECT_TRUE(quinto != quintoDesigualPositivo);
+  EXPECT_TRUE(quinto != quintoDesigualNegativo);
+  EXPECT_TRUE(quinto != quintoDesigualPosNeg);
+  EXPECT_TRUE(quinto != quintoDesigualNegPos);
+  EXPECT_TRUE(quinto != quintoDesigualNulo);
+```
 #### toIdx(uint cols)
 ```cpp
   TEST_C(CoordenadaTest, toIdx);
