@@ -9,6 +9,7 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 ```cpp
   TEST_M(MapTest, Map);
 ```
+*?Esta bien que pueda crear un mapa con (f <= 0 or f > 8) o (c <= 0 or c > 8)?*
 - **Bla bla bla:**
   ```cpp
     // inserte su test aqui 
@@ -17,25 +18,115 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 ```cpp
   TEST_M(MapTest, setAt);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+*?Que pasa si la posicion "pos" esta fuera del mapa?*
+*?Puedo acceder a hash, rows y cols?*
+
+**TODO: Hacerlo mas general**
+```cpp
+  Map mapa = Map(4,4);  
+  // Mapa sin celdas visitadas
+  Coord coordenada1 = Coord(1,2); 
+  mapa.setAt(coordenada1, true);
+  bool result = (mapa.hash & coordenada1.toMap(4)) == coordenada1.toMap(4);
+  EXPECT_TRUE(result);
+  // Seteo verdadera celda ya verdadera
+  mapa.setAt(coordenada1, true);
+  result = (mapa.hash & coordenada1.toMap(4)) == coordenada1.toMap(4);
+  EXPECT_TRUE(result);
+  // Seteo falsa celda ya falsa
+  Coord coordenada2 = Coord(0,3);
+  mapa.setAt(coordenada2, false);
+  result = (bool)(~(mapa.hash & coordenada2.toMap(4)));
+  EXPECT_TRUE(result);
+  // Seteo verdadera a falsa
+  mapa.setAt(coordenada1, false);
+  result = (bool)(~(mapa.hash & coordenada1.toMap(4)));
+  EXPECT_TRUE(result);
+```
 #### getAt(Coord& pos)
 ```cpp
   TEST_M(MapTest, getAt);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+*Se asume que setAt funciona*
+
+**TODO: Hacerlo mas general**
+ ```cpp
+  // Mapa vacio
+  Map mapa1 = Map(3,6);
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 6; j++) {
+      EXPECT_TRUE(!(mapa1.getAt(Coord(j,i))));
+    }
+  }
+  
+  // Mapa todo lleno
+  Map mapa1 = Map(8,8);
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      mapa2.setAt(Coord(j,i),true);
+    }
+  }
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      EXPECT_TRUE((mapa2.getAt(Coord(j,i))));
+    }
+  }
+```
 #### inRange(Coord& pos)
 ```cpp
   TEST_M(MapTest, inRange);
 ```
-- **Bla bla bla:**
+- **Mapa cuadrado:**
   ```cpp
-    // inserte su test aqui 
+    // Mapa de kxk
+    for (int k = 2; k < 9; k++) {
+      Map mapa = Map(k,k);
+      for (int i = 0; i < k; i++) {
+        for (int j = 0; j < k; j++) {
+          // Todas dentro del rango
+          EXPECT_TRUE(mapa.inRange(Coord(j,i)));
+          // X negativa, Y en rango
+          EXPECT_FALSE(mapa.inRange(Coord(-j,i)));
+          // X en rango, Y negativa
+          EXPECT_FALSE(mapa.inRange(Coord(j,-i)));
+          // Ambas negativas
+          EXPECT_FALSE(mapa.inRange(Coord(-j,-i)));
+          // Posicion con X se paso de limite, Y no
+          EXPECT_FALSE(mapa.inRange(Coord(k+j,i)));
+          // Posicion con X en rango, Y se paso
+          EXPECT_FALSE(mapa.inRange(Coord(j,k+i)));
+          // Posicion con X e Y pasadas de limite
+          EXPECT_FALSE(mapa.inRange(Coord(k+j,k+i)));
+        }
+      }
+    }
+  ```
+- **Mapa rectangular y no cuadrado:**
+  ```cpp
+    // Mapa de qxk (q < k)
+    for (int q = 2; q < 8; q++) {
+      for (int k = q+1; k < 9; k++) {
+        Map mapa = Map(q,k);
+        for (int i = 0; i < q; i++) {
+          for (int j = 0; j < k; j++) {
+            // Todas dentro del rango
+            EXPECT_TRUE(mapa.inRange(Coord(j,i)));
+            // X negativa, Y en rango
+            EXPECT_FALSE(mapa.inRange(Coord(-j,i)));
+            // X en rango, Y negativa
+            EXPECT_FALSE(mapa.inRange(Coord(j,-i)));
+            // Ambas negativas
+            EXPECT_FALSE(mapa.inRange(Coord(-j,-i)));
+            // Posicion con X se paso de limite, Y no
+            EXPECT_FALSE(mapa.inRange(Coord(k+j,i)));
+            // Posicion con X en rango, Y se paso
+            EXPECT_FALSE(mapa.inRange(Coord(j,q+i)));
+            // Posicion con X e Y pasadas de limite
+            EXPECT_FALSE(mapa.inRange(Coord(k+j,q+i)));
+          }
+        }
+      }
+    }
   ```
 #### canGo(Coord& pos)
 ```cpp
