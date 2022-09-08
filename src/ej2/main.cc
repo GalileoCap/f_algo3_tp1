@@ -1,10 +1,6 @@
 #include "utils.h"
 #include "sprinkler.h"
 
-bool dequals(const double a, const double b) {
-  return std::abs(a - b) <= std::numeric_limits<double>::epsilon();
-}
-
 int main(void) {
   while (true) {
     ulong n, l, w;
@@ -12,7 +8,8 @@ int main(void) {
     if (feof(stdin)) break;
 
     struct SprinklerList sprinklers(l, w);
-    for (ulong i = 0, r, pos; i < n; i++) {
+    for (uint i = 0; i < n; i++) {
+      ulong r, pos;
       _scan = scanf("%lu %lu", &pos, &r);
       sprinklers.emplace(r, pos);
     }
