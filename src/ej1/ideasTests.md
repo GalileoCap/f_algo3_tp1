@@ -671,22 +671,87 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
   EXPECT_TRUE(quinto != quintoDesigualNulo);
 ```
 #### toIdx(uint cols)
+*Que deberia devolver si **cols = 0**? O si uso una posicion fuera del mapa (ejemplo: **x o y negativa**)?*
 ```cpp
   TEST_C(CoordenadaTest, toIdx);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
+- **Mapa cuadrado:**
+```cpp
+    // Mapas 2x2 a 8x8
+    for (int k = 2; k < 9; k++) {
+      uint actualIdx = 0;
+      for (int i = 0; i < k; i++) {
+        for (int j = 0; j < k; j++) {
+          Coord pos = Coord(j, i);
+          uint idxFuncion = pos.toIdx(k);
+          // Aca se hace el checkeo 
+          EXPECT_EQ(idxFuncion, actualIdx);
+          actualIdx++;
+        }
+      }
+    }
   ```
+
+- **Mapa no cuadrado:**
+```cpp
+    // Mapas qxk (q < k)
+    for (int q = 2; k < 8; k++) {
+      for (int k = q+1; k < 9; k++) {
+        uint actualIdx = 0;
+        for (int i = 0; i < q; i++) {
+          for (int j = 0; j < k; j++) {
+            Coord pos = Coord(j, i);
+            uint idxFuncion = pos.toIdx(k);
+            // Aca se hace el checkeo 
+            EXPECT_EQ(idxFuncion, actualIdx);
+            actualIdx++;
+          }
+        }
+      }
+    }
+  ```
+
 #### toMap(uint cols)
 ```cpp
   TEST_C(CoordenadaTest, toMap);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
+- **Mapa cuadrado:**
+```cpp
+    // Mapas 2x2 a 8x8 (mapas de kxk)
+    for (int k = 2; k < 9; k++) {
+      uint actualCell = 1;
+      for (int i = 0; i < k; i++) {
+        for (int j = 0; j < k; j++) {
+          Coord pos = Coord(j, i);
+          ulong mapFuncion = pos.toMap(k);
+          ulong expected = (ulong)(actualCell);
+          // Aca se hace el checkeo 
+          EXPECT_EQ(mapFuncion, expected);
+          actualCell++;
+        }
+      }
+    }
   ```
 
+- **Mapa no cuadrado:**
+```cpp
+    // Mapas qxk (q < k)
+    for (int q = 2; k < 8; k++) {
+      for (int k = q+1; k < 9; k++) {
+        uint actualCell = 1;
+        for (int i = 0; i < q; i++) {
+          for (int j = 0; j < k; j++) {
+            Coord pos = Coord(j, i);
+            uint mapFuncion = pos.toMap(k);
+            ulong expected = (ulong)(actualCell);
+            // Aca se hace el checkeo 
+            EXPECT_EQ(mapFuncion, actualIdx);
+            actualCell++;
+          }
+        }
+      }
+    }
+  ```
 ### Tour Counter
 #### input()
 ```cpp
