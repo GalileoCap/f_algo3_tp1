@@ -695,7 +695,7 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 - **Mapa no cuadrado:**
 ```cpp
     // Mapas qxk (q < k)
-    for (int q = 2; k < 8; k++) {
+    for (int q = 2; q < 8; q++) {
       for (int k = q+1; k < 9; k++) {
         uint actualIdx = 0;
         for (int i = 0; i < q; i++) {
@@ -736,7 +736,7 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 - **Mapa no cuadrado:**
 ```cpp
     // Mapas qxk (q < k)
-    for (int q = 2; k < 8; k++) {
+    for (int q = 2; q < 8; q++) {
       for (int k = q+1; k < 9; k++) {
         uint actualCell = 1;
         for (int i = 0; i < q; i++) {
