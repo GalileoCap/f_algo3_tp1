@@ -2,7 +2,7 @@
 
 SprinklerList::SprinklerList(const ulong _l, const ulong _w) : l(_l), w(_w) {}
 
-void SprinklerList::emplace(const ulong r, const ulong pos) {
+void SprinklerList::emplace(const ulong r, const ulong pos) { //U: Adds a new sprinkler to the queue only if its valid
   struct Sprinkler s(r, pos, w);
   if (s.valid) queue.push(s);
 }
@@ -15,7 +15,7 @@ SprinklerList::Sprinkler::Sprinkler(const ulong _r, const ulong _pos, const ulon
   }
 }
 
-bool SprinklerList::Sprinkler::operator<(const struct Sprinkler& s1) const {
+bool SprinklerList::Sprinkler::operator<(const struct Sprinkler& s1) const { //U: For the queue
   return leftLim > s1.leftLim;
 }
 
@@ -30,7 +30,7 @@ int SprinklerList::solve() {
       if (s1.leftLim > areaCovered) break; //A: Doesn't help
       else {
         queue.pop();
-        if ((s1.rightLim - areaCovered) > (s0.rightLim - areaCovered)) s0 = s1;
+        if ((s1.rightLim - areaCovered) > (s0.rightLim - areaCovered)) s0 = s1; //A: Adds more new areaCovered
       }
     }
 
