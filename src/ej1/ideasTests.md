@@ -137,12 +137,132 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
     // inserte su test aqui 
   ```
 #### uint freeNeighbors(Coord& pos)
+*Se podrian utilizar mas mapas de mas dimensiones (por no decir todos los posibles)*
+
+*Se asume que la funcion **manhattan** del struct **Coord** es correcta. *
 ```cpp
   TEST_M(MapTest, freeNeighbors);
 ```
-- **Bla bla bla:**
+- **Centro:**
   ```cpp
-    // inserte su test aqui 
+    Map mapa = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa.setAt(Coord(j,i),true);
+            if(Coord(j,i) != Coord(1,1) && Coord(1,1).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa.freeNeighbors(Coord(1,1)), 4 - vecinosOcupados);        
+        } 
+    }
+  ```
+- **Corners:**
+  ```cpp
+    // Abajo izquierda
+    Map mapa2 = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa2.setAt(Coord(j,i),true);
+            if(Coord(j,i) != Coord(0,0) && Coord(0,0).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa2.freeNeighbors(Coord(0,0)), 2 - vecinosOcupados);        
+        } 
+    }
+    // Abajo derecha
+    Map mapa3 = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa3.setAt(Coord(j,i),true);
+            if(Coord(j,i) != Coord(2,0) && Coord(2,0).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa3.freeNeighbors(Coord(2,0)), 2 - vecinosOcupados);        
+        } 
+    }
+    // Arriba izquierda
+    Map mapa4 = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa4.setAt(Coord(j,i),true);
+            if(Coord(j,i) != Coord(0,2) && Coord(0,2).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa4.freeNeighbors(Coord(0,2)), 2 - vecinosOcupados);        
+        } 
+    }
+    // Arriba derecha
+    Map mapa5 = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa5.setAt(Coord(j,i),true);
+            if(Coord(j,i) != Coord(2,2) && Coord(2,2).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa5.freeNeighbors(Coord(2,2)), 2 - vecinosOcupados);        
+        } 
+    }
+  ```
+- **Tope arriba:**
+  ```cpp
+    Map mapa = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa.setAt(Coord(j,i),true);
+            if(Coord(j,i) != Coord(1,2) && Coord(1,2).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa.freeNeighbors(Coord(1,2)), 3 - vecinosOcupados);        
+        } 
+    }
+  ```
+- **Tope abajo:**
+  ```cpp
+    Map mapa = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa.setAt(Coord(j,i),true);
+            if(Coord(j,i) != Coord(1,0) && Coord(1,0).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa.freeNeighbors(Coord(1,0)), 3 - vecinosOcupados);        
+        } 
+    }
+  ```
+- **Tope izquierda:**
+  ```cpp
+    Map mapa = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa.setAt(Coord(j,i), true);
+            if(Coord(j,i) != Coord(0,1) && Coord(0,1).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa.freeNeighbors(Coord(0,1)), 3 - vecinosOcupados);        
+        } 
+    }
+  ```
+- **Tope derecha:**
+  ```cpp
+    Map mapa = Map(3,3);
+    for(int i = 0; i < 3; i++) {
+        int vecinosOcupados = 0;
+        for(int j = 0; j < 3; j++) {
+            mapa.setAt(Coord(j,i), true);
+            if(Coord(j,i) != Coord(2,1) && Coord(2,1).manhattan(Coord(j,i) == 1)) {
+                vecinosOcupados++;    
+            }     
+            EXPECT_EQUAL(mapa.freeNeighbors(Coord(2,1)), 3 - vecinosOcupados);        
+        } 
+    }
   ```
 #### isBlocked(Coord& pos)
 ```cpp
