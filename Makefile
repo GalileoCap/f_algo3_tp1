@@ -21,10 +21,10 @@ ej%: ej%_submit
 	$(CXX) $(CFLAGS) -g -D DEBUG $($@DIR)/*.cc -o $(BUILDDIR)/$@_debug
 
 ej1_submit:
-	@echo "To submit do:\ncat $(ej1DIR)/{utils.h,coord.h,map.h,tourCounter.h,*.cc} >> $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed '/#include \"/d' -i $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
+	@echo "To submit EJ1 do:\ncat $(ej1DIR)/{utils.h,coord.h,map.h,tourCounter.h,*.cc} >> $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed '/#include \"/d' -i $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
 
 ej2_submit:
-	@echo TODO: ej2_submit
+	@echo "To submit EJ2 do:\ncat $(ej2DIR)/{utils.h,sprinkler.h,*.cc} >> $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed '/#include \"/d' -i $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
 
 ej3_submit:
 	@echo TODO: ej3_submit
