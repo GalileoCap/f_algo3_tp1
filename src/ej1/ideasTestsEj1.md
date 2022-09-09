@@ -2,7 +2,118 @@
 Hacemos tests de las funciones por separado y de varias instancias de juego. 
 
 ## Juego completo
-
+Agregar al struct **TourCounter** la funcion **'inputTest(int rows, cols, Coord checkin1, Coord checkin2, Coord checkin3)'** donde se puede iniciar el input sin tener que indicar la fila, columnam y los check-ins por consola.
+#### Mapas 2xN:
+- **Juego con solución > 0:**
+  ```cpp
+  TourCounter tc;
+  bool valido;
+    
+  // 2x4
+  tc.inputTest(2,4,Coord(0,1),Coord(2,1),Coord(3,0));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  // 2x5
+  tc.inputTest(2,5,Coord(0,1),Coord(3,1),Coord(4,0));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  // 2x6
+  tc.inputTest(2,6,Coord(1,1),Coord(4,1),Coord(4,0));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  // 2x7
+  tc.inputTest(2,7,Coord(1,1),Coord(5,1),Coord(5,0));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  // 2x8
+  tc.inputTest(2,8,Coord(2,1),Coord(6,1),Coord(5,0));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  ```
+- **Juego sin solución (*o dicho de otra manera, solucion = 0*):**
+  ```cpp
+    // inserte su test aqui 
+  ```
+#### Mapas 3xN:
+- **Juego con solucion > 0:**
+  ```cpp
+  TourCounter tc;
+  bool valido;
+  
+  // 3x4
+  tc.inputTest(3,4,Coord(0,2),Coord(2,1),Coord(3,1));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  // 3x6 (el del enunciado)
+  tc.inputTest(3,6,Coord(1,2),Coord(4,2),Coord(4,0));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 2);
+  
+  // 3x8
+  tc.inputTest(3,8,Coord(2,1),Coord(5,2),Coord(7,0));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  ```
+- **Juego sin solucion (*o dicho de otra manera, solucion = 0*):**
+  ```cpp
+    // inserte su test aqui 
+  ```
+#### Mapas 4XN:
+- **Juego con solucion > 0:**
+  ```cpp
+    // inserte su test aqui 
+  ```
+- **Juego sin solucion (*o dicho de otra manera, solucion = 0*):**
+  ```cpp
+    // inserte su test aqui 
+  ```
+#### Mapas 5XN:
+- **Juego con solucion > 0:**
+  ```cpp
+    // inserte su test aqui 
+  ```
+- **Juego sin solucion (*o dicho de otra manera, solucion = 0*):**
+  ```cpp
+    // inserte su test aqui 
+  ```
+#### Mapas 6XN:
+- **Juego con solucion > 0:**
+  ```cpp
+    // inserte su test aqui 
+  ```
+- **Juego sin solucion (*o dicho de otra manera, solucion = 0*):**
+  ```cpp
+    // inserte su test aqui 
+  ```
+#### Mapas 7XN:
+- **Juego con solucion > 0:**
+  ```cpp
+    // inserte su test aqui 
+  ```
+- **Juego sin solucion (*o dicho de otra manera, solucion = 0*):**
+  ```cpp
+    // inserte su test aqui 
+  ```
+#### Mapas 8X8:
+- **Juego con solucion > 0:**
+  ```cpp
+    // inserte su test aqui 
+  ```
+- **Juego sin solucion (*o dicho de otra manera, solucion = 0*):**
+  ```cpp
+    // inserte su test aqui 
+  ```
+#### Mapas de tamano invalido:
+- **Bla bla bla:**
+  ```cpp
+    // inserte su test aqui 
+  ```
+  
 ## Funciones
 ### Map
 #### Map(uint _rows,uint _cols)
@@ -1040,6 +1151,7 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 ```cpp
   TEST_TC(TourCounterTest, input);
 ```
+*?No deberia tomar como invalido un mapa de 1x1, o de nx1?*
 - **Bla bla bla:**
   ```cpp
     // inserte su test aqui 
