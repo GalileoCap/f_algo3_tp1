@@ -7,7 +7,7 @@ int main(void) {
     uint _scan = scanf("%lu %lu %lu", &n, &l, &w);
     if (feof(stdin)) break; //A: No more cases
 
-    struct SprinklerList sprinklers(l, w);
+    struct SprinklerList sprinklers(n, l, w);
     for (uint i = 0; i < n; i++) {
       ulong r, pos, cost;
       _scan = scanf("%lu %lu %lu", &pos, &r, &cost);
