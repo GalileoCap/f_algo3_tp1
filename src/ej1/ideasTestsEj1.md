@@ -66,7 +66,27 @@ Agregar al struct **TourCounter** la funcion **'inputTest(int rows, cols, Coord 
 #### Mapas 4XN:
 - **Juego con solucion > 0:**
   ```cpp
-    // inserte su test aqui 
+  TourCounter tc;
+  bool valido;
+  
+  // 4x4
+  tc.inputTest(4,4,Coord(1,2),Coord(2,3),Coord(2,1));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  tc.inputTest(4,4,Coord(0,3),Coord(2,1),Coord(3,2));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  tc.inputTest(4,4,Coord(2,1),Coord(0,3),Coord(3,2));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
+  // 4x5
+  tc.inputTest(4,5,Coord(1,3),Coord(2,3),Coord(3,1));
+  EXPECT_TRUE(valido);
+  EXPECT_EQUAL(tc.countTours(), 1);
+  
   ```
 - **Juego sin solucion (*o dicho de otra manera, solucion = 0*):**
   ```cpp
