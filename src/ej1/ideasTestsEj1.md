@@ -471,27 +471,255 @@ Agregar al struct **TourCounter** la funcion **'inputTest(int rows, cols, Coord 
 ```cpp
   TEST_M(MapTest, isBlocked);
 ```
-- **Bla bla bla:**
+- **Bloqueada la posición (1,0):**
   ```cpp
-    // inserte su test aqui 
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,0), true);    
+    mapa.setAt(Coord(2,0), true);
+    mapa.setAt(Coord(1,1), true);
+    EXPECT_TRUE((mapa.isBlocked(Coord(1,0))); 
   ```
+  
+- **No Bloqueada la posición (1,0):**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,0), true);
+    mapa.setAt(Coord(1,1), true);
+    EXPECT_FALSE((mapa.isBlocked(Coord(1,0))); 
+  ```
+  
+- **Bloqueada la posición del centro (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(1,0), true);    
+    mapa.setAt(Coord(0,1), true);
+    mapa.setAt(Coord(1,2), true);
+    mapa.setAt(Coord(2,1), true);
+    EXPECT_TRUE((mapa.isBlocked(Coord(1,1))); 
+  ```
+
+- **No Bloqueada la posición del centro (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(1,0), true);    
+    mapa.setAt(Coord(0,1), true);
+    mapa.setAt(Coord(1,2), true);    
+    EXPECT_FALSE((mapa.isBlocked(Coord(1,1))); 
+  ```
+  
+- **Bloqueada la posición Inicial (0,0) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,1), true);    
+    mapa.setAt(Coord(1,0), true);       
+    EXPECT_TRUE((mapa.isBlocked(Coord(0,0))); 
+  ```
+
+- **No Bloqueada la posición Inicial (0,0) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,1), true);
+    EXPECT_FALSE((mapa.isBlocked(Coord(0,0))); 
+  ```
+
+- **Bloqueada la esquina superior izquierda (0,2) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,1), true);    
+    mapa.setAt(Coord(1,2), true);       
+    EXPECT_TRUE((mapa.isBlocked(Coord(0,2))); 
+  ```
+  
+- **No Bloqueada la esquina superior izquierda (0,2) :**
+  ```cpp
+    Map mapa = Map(3,3);      
+    mapa.setAt(Coord(1,2), true);       
+    EXPECT_FALSE((mapa.isBlocked(Coord(0,2))); 
+  ```
+
+- **Bloqueada la esquina superior derecha (2,2) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);    
+    mapa.setAt(Coord(1,2), true);       
+    EXPECT_TRUE((mapa.isBlocked(Coord(2,2))); 
+  ``` 
+
+- **No Bloqueada la esquina superior derecha (2,2) :**
+  ```cpp
+    Map mapa = Map(3,3);     
+    mapa.setAt(Coord(1,2), true);       
+    EXPECT_FALSE((mapa.isBlocked(Coord(2,2))); 
+  ``` 
+
+- **Bloqueada la esquina inferior derecha (2,0) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);    
+    mapa.setAt(Coord(1,0), true);       
+    EXPECT_TRUE((mapa.isBlocked(Coord(2,2))); 
+  ``` 
+
+- **No Bloqueada la esquina inferior derecha (2,0) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);           
+    EXPECT_FALSE((mapa.isBlocked(Coord(2,2))); 
+  ``` 
+ 
 #### willSplit(Coord& pos)
 ```cpp
   TEST_M(MapTest, willSplit);
 ```
-- **Bla bla bla:**
+- **Partido en horizontal (1,1) :**
   ```cpp
-    // inserte su test aqui 
-  ```
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);    
+    mapa.setAt(Coord(0,1), true);       
+    EXPECT_TRUE((mapa.willSplit(Coord(1,1))); 
+  ``` 
+
+- **No Partido en horizontal (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);      
+    mapa.setAt(Coord(0,1), true);       
+    EXPECT_FALSE((mapa.willSplit(Coord(1,1))); 
+  ``` 
+
+- **No Partido en horizontal (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);         
+    EXPECT_FALSE((mapa.willSplit(Coord(1,1))); 
+  ``` 
+
+- **Partido en vertical (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(1,2), true);    
+    mapa.setAt(Coord(1,0), true);       
+    EXPECT_TRUE((mapa.willSplit(Coord(1,1))); 
+  ``` 
+
+- **No Partido en vertical (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);      
+    mapa.setAt(Coord(1,2), true);      
+    EXPECT_FALSE((mapa.willSplit(Coord(1,1))); 
+  ``` 
+
+- **No Partido en vertical (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);
+     mapa.setAt(Coord(1,0), true);      
+    EXPECT_FALSE((mapa.willSplit(Coord(1,1))); 
+  ``` 
+  
 #### check(Coord& pos)
 ```cpp
   TEST_M(MapTest, check);
 ```
-- **Bla bla bla:**
+- **Partido en vertical (1,1) :**
   ```cpp
-    // inserte su test aqui 
-  ```
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(1,2), true);    
+    mapa.setAt(Coord(1,0), true);       
+    EXPECT_FALSE((mapa.check(Coord(1,1))); 
   
+- **Partido en horizontal (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);    
+    mapa.setAt(Coord(0,1), true);       
+    EXPECT_FALSE((mapa.check(Coord(1,1))); 
+  ``` 
+
+- **Bloqueada la posición (1,0):**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,0), true);    
+    mapa.setAt(Coord(2,0), true);
+    mapa.setAt(Coord(1,1), true);
+    EXPECT_FALSE((mapa.check(Coord(1,0))); 
+  ```
+
+- **Bloqueada la posición del centro (1,1) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(1,0), true);    
+    mapa.setAt(Coord(0,1), true);
+    mapa.setAt(Coord(1,2), true);
+    mapa.setAt(Coord(2,1), true);
+    EXPECT_FALSE((mapa.check(Coord(1,1))); 
+  ```
+
+- **Bloqueada la posición Inicial (0,0) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,1), true);    
+    mapa.setAt(Coord(1,0), true);       
+    EXPECT_FALSE((mapa.check(Coord(0,0))); 
+  ```
+
+- **Bloqueada la esquina superior izquierda (0,2) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,1), true);    
+    mapa.setAt(Coord(1,2), true);       
+    EXPECT_FALSE((mapa.check(Coord(0,2))); 
+  ```
+
+- **Bloqueada la esquina superior derecha (2,2) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);    
+    mapa.setAt(Coord(1,2), true);       
+    EXPECT_FALSE((mapa.check(Coord(2,2))); 
+  ``` 
+
+- **Bloqueada la esquina inferior derecha (2,0) :**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(2,1), true);    
+    mapa.setAt(Coord(1,0), true);       
+    EXPECT_FALSE((mapa.check(Coord(2,2))); 
+  ``` 
+
+- **Mapa final (último movimiento desde (1,1)):**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,0), true);    
+    mapa.setAt(Coord(0,1), true);
+    mapa.setAt(Coord(0,2), true);
+    mapa.setAt(Coord(1,2), true);
+    mapa.setAt(Coord(2,0), true); 
+    mapa.setAt(Coord(2,1), true); 
+    mapa.setAt(Coord(2,2), true);          
+    EXPECT_TRUE((mapa.check(Coord(1,1))); 
+  ``` 
+
+- **Mapa final (último movimiento desde (2,0)):**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,0), true);    
+    mapa.setAt(Coord(0,1), true);
+    mapa.setAt(Coord(0,2), true);
+    mapa.setAt(Coord(1,1), true); 
+    mapa.setAt(Coord(1,2), true);    
+    mapa.setAt(Coord(2,1), true); 
+    mapa.setAt(Coord(2,2), true);          
+    EXPECT_TRUE((mapa.check(Coord(2,0))); 
+  ``` 
+  
+- **Mapa inicial (Primer Movimiento):**
+  ```cpp
+    Map mapa = Map(3,3);
+    mapa.setAt(Coord(0,0), true); 
+    EXPECT_TRUE((mapa.check(Coord(0,1))); 
+  ``` 
+
+**TODO: AGREGAR A FUTURO ALGÚN TEST PARA CHEQUEAR QUE ROMPA POR GetAt**  
+ 
 ### Coord
 #### manhattan(Coord& Y) 
 ```cpp
