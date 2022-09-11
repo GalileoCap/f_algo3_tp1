@@ -11,7 +11,6 @@ struct SprinklerList {
   inline bool canFill(const uint i, const uint j) const;
   inline bool isFull(const uint last) const;
 
-  int solve(const uint i, const uint j);
   int solve();
 
   ulong l, w;

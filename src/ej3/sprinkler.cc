@@ -29,21 +29,23 @@ inline bool SprinklerList::isFull(const uint last) const {
   return l == 0 || ((last != -1) && !(sprinklers[last].rightLim < (double)l));
 }
 
-int SprinklerList::solve(const uint i, const uint j) {
-  if (i == sprinklers.size()) return -(!isFull(j)); //A: Base case 0 (no more sprinklers): 0 if it's full, -1 if not
-  else if (isFull(j)) return 0; //A: Base case 1 (already full)
-  else if (!canFill(i, j)) return -1; //A: Base case 2 (can't be filled)
-  else {
-    int l = solve(i+1, j), r = solve(i+1, i);
-    if (r != -1) r += sprinklers[i].cost;
-
-    if (l == -1) return r;
-    else if (r == -1) return l;
-    else return std::min(l, r);
-  }
-}
-
 int SprinklerList::solve() {
+  std::vector<std::vector<int>> M(sprinklers.size()+1, std::vector<int> (sprinklers.size()+1));
   std::sort(sprinklers.begin(), sprinklers.end());
-  return solve(0, -1);
+
+  for (int i = sprinklers.size(); i >= 0; i--)
+    for (int j = 0; j <= i; j++)
+      if (i == sprinklers.size()) M[i][j] = -(!isFull(j-1));
+      else if (isFull(j-1)) M[i][j] = 0;
+      else if (!canFill(i, j-1)) M[i][j] = -1;
+      else {
+        int l = M[i+1][j], r = M[i+1][i+1];
+        if (r != -1) r += sprinklers[i].cost;
+
+        if (l == -1) M[i][j] = r;
+        else if (r == -1) M[i][j] = l;
+        else M[i][j] = std::min(l, r);
+      }
+
+  return M[0][0];
 }
