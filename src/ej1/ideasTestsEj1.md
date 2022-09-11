@@ -1408,18 +1408,136 @@ Agregar al struct **TourCounter** la funcion **'inputTest(int rows, cols, Coord 
 ```cpp
   TEST_TC(TourCounterTest, countTours);
 ```
-- **Bla bla bla:**
+- **4x4 dos soluciones:**
   ```cpp
-    // inserte su test aqui 
+    // Paso 5, Paso 9, Paso 14
+    TourCounter::inputTests(4,4, Coord(1,3), Coord(2,2), Coord(3,0));
+    EXPECT_EQ(TourCounter::countTours(), 2);     
   ```
+
+- **4x4 una solucion:**
+  ```cpp
+    // Paso 4, Paso 11, Paso 13
+    TourCounter::inputTests(4,4, Coord(1,2), Coord(2,2), Coord(3,1));
+    EXPECT_EQ(TourCounter::countTours(), 1);     
+  ```  
+
+- **4x4 ninguna solucion (1):**
+  ```cpp
+    // Paso 4, Paso 7, Paso 11
+    TourCounter::inputTests(4,4, Coord(1,2), Coord(3,1), Coord(3,3));
+    EXPECT_EQ(TourCounter::countTours(), 0);     
+  ```  
+
+- **4x4 ninguna solucion (2):**
+  ```cpp
+    // Paso 4, Paso 9, Paso 12
+    TourCounter::inputTests(4,4, Coord(2,1), Coord(3,3), Coord(1,2));
+    EXPECT_EQ(TourCounter::countTours(), 0);     
+  ```  
+
+- **3x4 una solucion (1):**
+  ```cpp
+    // Paso 5, Paso 8, Paso 11
+    TourCounter::inputTests(3,4, Coord(1,1), Coord(3,2), Coord(2,0));
+    EXPECT_EQ(TourCounter::countTours(), 1);     
+  ```  
+
+- **3x4 una solucion (2):**
+  ```cpp
+    // Paso 5, Paso 8, Paso 11
+    TourCounter::inputTests(3,4, Coord(2,2), Coord(3,0), Coord(1,1));
+    EXPECT_EQ(TourCounter::countTours(), 1);     
+  ```  
+
 #### tryTo(Coord& to)
 ```cpp
   TEST_TC(TourCounterTest, tryTo);
 ```
-- **Bla bla bla:**
+- **4x4 ninguna solucion (1):**
   ```cpp
-    // inserte su test aqui 
+    // Paso 4, Paso 7, Paso 11
+    TourCounter::inputTests(4,4, Coord(1,2), Coord(3,1), Coord(3,3));
+    EXPECT_EQ(TourCounter::tryTo(LEFT), 0);     
+  ```  
+
+- **4x4 ninguna solucion (1):**
+  ```cpp
+    // Paso 4, Paso 7, Paso 11
+    TourCounter::inputTests(4,4, Coord(1,2), Coord(3,1), Coord(3,3));
+    EXPECT_EQ(TourCounter::tryTo(RIGHT), 0);     
+  ```  
+
+- **4x4 ninguna solucion (1):**
+  ```cpp
+    // Paso 4, Paso 7, Paso 11
+    TourCounter::inputTests(4,4, Coord(1,2), Coord(3,1), Coord(3,3));
+    EXPECT_EQ(TourCounter::tryTo(UP), 0);     
+  ```  
+
+- **4x4 ninguna solucion (1):**
+  ```cpp
+    // Paso 4, Paso 7, Paso 11
+    TourCounter::inputTests(4,4, Coord(1,2), Coord(3,1), Coord(3,3));
+    EXPECT_EQ(TourCounter::tryTo(DOWN), 0);     
+  ```  
+
+- **3x4 una solucion (1):**
+  ```cpp
+    // Paso 5, Paso 8, Paso 11
+    TourCounter::inputTests(3,4, Coord(1,1), Coord(3,2), Coord(2,0));
+    EXPECT_EQ(TourCounter::tryTo(UP), 1);     
+  ```  
+
+- **3x4 una solucion (1):**
+  ```cpp
+    // Paso 5, Paso 8, Paso 11
+    TourCounter::inputTests(3,4, Coord(1,1), Coord(3,2), Coord(2,0));
+    EXPECT_EQ(TourCounter::tryTo(DOWN), 0);     
+  ```  
+
+- **3x4 una solucion (1):**
+  ```cpp
+    // Paso 5, Paso 8, Paso 11
+    TourCounter::inputTests(3,4, Coord(1,1), Coord(3,2), Coord(2,0));
+    EXPECT_EQ(TourCounter::tryTo(LEFT), 0);     
+  ```  
+
+- **3x4 una solucion (1):**
+  ```cpp
+    // Paso 5, Paso 8, Paso 11
+    TourCounter::inputTests(3,4, Coord(1,1), Coord(3,2), Coord(2,0));
+    EXPECT_EQ(TourCounter::tryTo(RIGHT), 0);     
+  ```  
+
+- **4x4 dos soluciones:**
+  ```cpp
+    // Paso 5, Paso 9, Paso 14
+    TourCounter::inputTests(4,4, Coord(1,3), Coord(2,2), Coord(3,0));
+    EXPECT_EQ(TourCounter::tryTo(UP), 2);     
   ```
+
+- **4x4 dos soluciones:**
+  ```cpp
+    // Paso 5, Paso 9, Paso 14
+    TourCounter::inputTests(4,4, Coord(1,3), Coord(2,2), Coord(3,0));
+    EXPECT_EQ(TourCounter::tryTo(DOWN), 0);     
+  ```
+
+- **4x4 dos soluciones:**
+  ```cpp
+    // Paso 5, Paso 9, Paso 14
+    TourCounter::inputTests(4,4, Coord(1,3), Coord(2,2), Coord(3,0));
+    EXPECT_EQ(TourCounter::tryTo(LEFT), 0);     
+  ```
+
+- **4x4 dos soluciones:**
+  ```cpp
+    // Paso 5, Paso 9, Paso 14
+    TourCounter::inputTests(4,4, Coord(1,3), Coord(2,2), Coord(3,0));
+    EXPECT_EQ(TourCounter::tryTo(RIGHT), 0);     
+  ```
+
 #### checkChecks()
 ```cpp
   TEST_TC(TourCounterTest, checkChecks);

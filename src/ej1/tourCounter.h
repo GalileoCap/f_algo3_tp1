@@ -14,6 +14,9 @@ struct TourCounter {
   inline bool checkChecks() const; //U: Is in time for the check-ins
   inline bool check() const; //U: It's in a valid state
 
+  //FOR TESTING ONLY!
+  bool inputTests(int rows, int cols, const struct Coord& checkin1, const struct Coord& checkin2, const struct Coord& checkin3);
+
   Map _map;
   std::array<std::pair<struct Coord, int>, N_CHECKINS + 2> _checkIns; //U: Check-ins in order, including START_POS and END_POS
   struct Coord _pos; //U: Current position of the robot
