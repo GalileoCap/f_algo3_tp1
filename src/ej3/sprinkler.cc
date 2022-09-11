@@ -30,22 +30,22 @@ inline bool SprinklerList::isFull(const uint last) const {
 }
 
 int SprinklerList::solve() {
-  std::vector<std::vector<int>> M(sprinklers.size()+1, std::vector<int> (sprinklers.size()+1));
+  std::vector<int> M(sprinklers.size()+1);
   std::sort(sprinklers.begin(), sprinklers.end());
 
   for (int i = sprinklers.size(); i >= 0; i--)
     for (int j = 0; j <= i; j++)
-      if (i == sprinklers.size()) M[i][j] = -(!isFull(j-1));
-      else if (isFull(j-1)) M[i][j] = 0;
-      else if (!canFill(i, j-1)) M[i][j] = -1;
+      if (i == sprinklers.size()) M[j] = -(!isFull(j-1));
+      else if (isFull(j-1)) M[j] = 0;
+      else if (!canFill(i, j-1)) M[j] = -1;
       else {
-        int l = M[i+1][j], r = M[i+1][i+1];
+        int l = M[j], r = M[i+1];
         if (r != -1) r += sprinklers[i].cost;
 
-        if (l == -1) M[i][j] = r;
-        else if (r == -1) M[i][j] = l;
-        else M[i][j] = std::min(l, r);
+        if (l == -1) M[j] = r;
+        else if (r == -1) M[j] = l;
+        else M[j] = std::min(l, r);
       }
 
-  return M[0][0];
+  return M[0];
 }
