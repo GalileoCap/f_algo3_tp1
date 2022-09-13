@@ -148,25 +148,164 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
    
     EXPECT_EQUAL(sprinklers.solve(), 2);
   ```
+- **n > 10000:**
+  ```cpp
+    struct SprinklerList sprinklers(1, 2);
+    
+    for(int i = 0; i <= 10001; i++) {
+      sprinklers.emplace(3, 1);
+    }
+        
+    EXPECT_EQUAL(sprinklers.solve(), -1);     
+  ```
 ## Funciones
 ### SprinklerList
 #### SprinklerList(const ulong _l, const ulong _w);
 ```cpp
   TEST_SL(SprinklerListTest, SprinklerList);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+
+```cpp
+  // Enteros > 0
+  struct SprinklerList sprinklers(8, 2);
+  
+  EXPECT_EQUAL(sprinklers.l, 8);
+  EXPECT_EQUAL(sprinklers.w, 2);
+  EXPECT_TRUE(sprinklers.queue.empty());
+  // l = 0
+  struct SprinklerList sprinklers(0, 5);
+  
+  EXPECT_EQUAL(sprinklers.l, 0);
+  EXPECT_EQUAL(sprinklers.w, 5);
+  EXPECT_TRUE(sprinklers.queue.empty());
+  // w = 0
+  struct SprinklerList sprinklers(7, 0);
+  
+  EXPECT_EQUAL(sprinklers.l, 7);
+  EXPECT_EQUAL(sprinklers.w, 0);
+  EXPECT_TRUE(sprinklers.queue.empty());
+
+  // l = w = 0
+  struct SprinklerList sprinklers(0, 0);
+  
+  EXPECT_EQUAL(sprinklers.l, 0);
+  EXPECT_EQUAL(sprinklers.w, 0);
+  EXPECT_TRUE(sprinklers.queue.empty());
+
+  // l < 0
+  struct SprinklerList sprinklers(-10, 80);
+  
+  EXPECT_EQUAL(sprinklers.l, -10);
+  EXPECT_EQUAL(sprinklers.w, 80);
+  EXPECT_TRUE(sprinklers.queue.empty());
+
+  // w < 0
+  struct SprinklerList sprinklers(310, -82313);
+  
+  EXPECT_EQUAL(sprinklers.l, 310);
+  EXPECT_EQUAL(sprinklers.w, -82313);
+  EXPECT_TRUE(sprinklers.queue.empty());
+  
+  // Negativo-Negativo
+  struct SprinklerList sprinklers(-111, -764);
+  
+  EXPECT_EQUAL(sprinklers.l, -111);
+  EXPECT_EQUAL(sprinklers.w, -764);
+  EXPECT_TRUE(sprinklers.queue.empty());
+```
 
 #### emplace(const ulong r, const ulong pos);  
 ```cpp
   TEST_SL(SprinklerListTest, emplace);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+```cpp
+  // Todos sprinklers en rango
+  // Ejemplo 1
+  struct SprinklerList sprinklers1(10, 2);
+  for(int i = 0; i <= 10; i++) {
+    struct Sprinkler sprinkler(1,i,sprinklers1.w);  
+    sprinklers1.emplace(1,i);
+    EXPECT_TRUE((sprinklers1.queue.top().lefLim == sprinkler.leftLim) && (sprinklers1.queue.top().rightLim == sprinkler.rightLim));
+  }
+  
+  // Ejemplo 2
+  struct SprinklerList sprinklers2(10, 2);
+  for(int i = 0; i <= 10; i++) {
+    sprinklers2.emplace(1+i,i);
+    EXPECT_TRUE((sprinklers2.queue.top().lefLim == sprinkler.leftLim) && (sprinklers2.queue.top().rightLim == sprinkler.rightLim));
+  }
+
+  // Ejemplo 3
+  struct SprinklerList sprinklers3(10, 2);
+  for(int i = 10; i >= 0; i--) {
+    sprinklers3.emplace(1+i,i);
+  }
+  for(int i = 0; i <= 10; i++) {
+    struct Sprinkler sprinkler(11-i,10-i,sprinklers3.w);
+    EXPECT_TRUE((sprinklers3.queue.top().lefLim == sprinkler.leftLim) && (sprinklers3.queue.top().rightLim == sprinkler.rightLim));
+    sprinklers3.queue.pop();
+  }
+
+  // Sprinklers encimados en la misma posicion
+  // Ejemplo 1 (mas chico a mas grande)
+  struct SprinklerList sprinklers4(4, 2);
+  for(int i = 0; i <= 3; i++) {
+    struct Sprinkler sprinkler(1+i,2,sprinklers4.w);
+    sprinklers4.emplace(1+i,2);
+    EXPECT_TRUE((sprinklers4.queue.top().lefLim == sprinkler.leftLim) && (sprinklers4.queue.top().rightLim == sprinkler.rightLim));
+  }
+  
+  // Ejemplo 2 (mas grande a mas chico)
+  struct SprinklerList sprinklers5(4, 2);
+  for(int i = 0; i <= 3; i++) {
+    struct Sprinkler sprinkler(4-i,2,sprinklers5.w);
+    sprinklers5.emplace(4-i,2);
+  }
+
+  for(int i = 0; i <= 3; i++) {
+    struct Sprinkler sprinkler(4-i,2,sprinklers5.w);
+    EXPECT_TRUE((sprinklers5.queue.top().lefLim == sprinkler.leftLim) && (sprinklers5.queue.top().rightLim == sprinkler.rightLim));
+    sprinklers5.queue.pop();
+  }
+  
+  // Ejemplo 3 (todos iguales)
+  struct SprinklerList sprinklers6(7, 3);
+  for(int i = 0; i <= 3; i++) {
+    sprinklers6.emplace(1,3);
+  }
+  
+  EXPECT_EQUAL(sprinklers6.queue.size(), 4);
+  
+  for(int i = 0; i <= 3; i++) {
+    struct Sprinkler sprinkler(1,3,sprinklers6.w);
+    EXPECT_TRUE((sprinklers6.queue.top().lefLim == sprinkler.leftLim) && (sprinklers6.queue.top().rightLim == sprinkler.rightLim));
+    sprinklers6.queue.pop();
+  }
+  
+  // Sprinklers en l = 0 o l = |l|
+  struct SprinklerList sprinklers7(5, 1);
+  sprinklers7.emplace(1,0);
+  sprinklers7.emplace(1,5);
+  EXPECT_TRUE(sprinklers7.queue.size() == 2);
+  
+  // Sprinklers fuera de rango (l y w positivos)
+  struct SprinklerList sprinklers8(8, 2);
+  sprinklers8.emplace(1,12);
+  sprinklers8.emplace(1,20);
+  EXPECT_TRUE(sprinklers8.queue.size() == 0);
+  
+  // Sprinklers fuera de rango (pos negativa)
+  struct SprinklerList sprinklers9(3, 4);
+  sprinklers9.emplace(4,-8);
+  sprinklers9.emplace(4,-10);
+  EXPECT_TRUE(sprinklers9.queue.size() == 0);
+  
+  // Sprinklers fuera de rango (r negativo)
+  struct SprinklerList sprinklers10(7, 4);
+  sprinklers10.emplace(-2,2);
+  sprinklers10.emplace(-6,1);
+  EXPECT_TRUE(sprinklers10.queue.size() == 0);
+```
 
 ### Sprinkler
 #### Sprinkler(const ulong _r, const ulong _pos, const ulong w);
@@ -179,7 +318,6 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
   ```
 
 #### operator<(const struct Sprinkler& s1);
-*?Hace falta? En ningun momento se lo usa*
 ```cpp
   TEST_SL(SprinklerTest, operator<);
 ```
