@@ -218,6 +218,7 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 ```cpp
   TEST_SL(SprinklerListTest, emplace);
 ```
+Implicitamente estoy testeando al operador < de Sprinkler tambien.
 ```cpp
   // Todos sprinklers en rango
   // Ejemplo 1
@@ -312,16 +313,71 @@ Hacemos tests de las funciones por separado y de varias instancias de juego.
 ```cpp
   TEST_SL(SprinklerTest, Sprinkler);
 ```
-- **Bla bla bla:**
-  ```cpp
-    SprinklerList list = SprinklerList(10,10);
-  ```
+
+```cpp
+  struct SprinklerList list1(10,2);
+  // 2r == w
+  struct Sprinkler sprinkler1(5,3,list1.w);
+  double corte = (double)std::sqrt((double)(25) - (double)(6/4));
+  EXPECT_TRUE(sprinkler1.valid);
+  EXPECT_EQUAL(sprinkler1.leftLim, (double) 3 - corte);
+  EXPECT_EQUAL(sprinkler1.rightLim, (double) 3 + corte);
+  
+  // 2r > l
+  struct Sprinkler sprinkler2(8,2,list1.w);
+  double corte = (double)std::sqrt((double)(64) - (double)(4/4));
+  EXPECT_TRUE(sprinkler2.valid);
+  EXPECT_EQUAL(sprinkler2.leftLim, (double) 2 - corte);
+  EXPECT_EQUAL(sprinkler2.rightLim, (double) 2 + corte);
+
+  // entre el jardin
+  struct Sprinkler sprinkler3(2,1,list1.w);
+  double corte = (double)std::sqrt((double)(4) - (double)(1/4));
+  EXPECT_TRUE(sprinkler3.valid);
+  EXPECT_EQUAL(sprinkler3.leftLim, (double) 1 - corte);
+  EXPECT_EQUAL(sprinkler3.rightLim, (double) 1 + corte);
+
+  // pos < 0 
+  struct Sprinkler sprinkler4(2,-4,list1.w);
+  EXPECT_FALSE(sprinkler4.valid);
+  
+  // pos > l
+  struct Sprinkler sprinkler5(2,47,list1.w);
+  EXPECT_FALSE(sprinkler5.valid);
+  
+  // 2r < w
+  struct Sprinkler sprinkler6(0,6,list1.w);
+  EXPECT_FALSE(sprinkler6.valid);
+```
 
 #### operator<(const struct Sprinkler& s1);
 ```cpp
   TEST_SL(SprinklerTest, operator<);
 ```
-- **Bla bla bla:**
-  ```cpp
-    // inserte su test aqui 
-  ```
+
+```cpp
+  struct SprinklerList list1(10,2);
+  // misma posicion, mismo r
+  struct Sprinkler primero1(3,5,list1.w);
+  struct Sprinkler primero2(3,5,list1.w);
+  EXPECT_FALSE(primero1 < primero2);
+  EXPECT_FALSE(primero2 < primero1);
+    
+  // misma posicion, distinto r
+  struct Sprinkler segundo1(2,4,list1.w);
+  struct Sprinkler segundo2(1,4,list1.w);
+  EXPECT_FALSE(segundo1 < segundo2);
+  EXPECT_TRUE(segundo2 < segundo1);
+
+  // menor r, con pos mas cerca de inicio, mayor r, con pos mas lejos de inicio
+  struct Sprinkler tercero1(1,1,list1.w);
+  struct Sprinkler tercero2(6,3,list1.w);
+  EXPECT_FALSE(tercero2 < tercero1);
+  EXPECT_TRUE(tercero1 < tercero2);
+  
+  // leftlim negativo
+  struct Sprinkler cuarto1(8,1,list1.w);
+  struct Sprinkler cuarto2(6,3,list1.w);
+  EXPECT_FALSE(cuarto1 < cuarto2);
+  EXPECT_TRUE(cuarto2 < cuarto1);
+```
