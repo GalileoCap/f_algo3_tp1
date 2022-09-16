@@ -1,29 +1,104 @@
-%&pdflatex
-\documentclass[12pt]{article}
-\usepackage[margin=1.0in]{geometry}
+\documentclass[a4paper]{article}
+\usepackage{biblatex} % Para la bibliografía.
+\addbibresource{bibliografia.bib} % Archivo de bibliografía que usa 'biblatex'.
+\usepackage{amsfonts} % Para algunos símbolos matemáticos.
+\usepackage{hyperref} % Para hipervínculos clickeables.
+\input{Algo1Macros}
+\usepackage[ruled,spanish,nofillcomment]{algorithm2e} % Para escribir algoritmos.
+\usepackage{caption} % Para centrado de captions (pie) de las figuras.
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
-\usepackage{g-util, g-algo3}
-\usepackage{amsfonts, amsmath, amssymb, amsthm}
-\usepackage{tikz, tikz-qtree}
-%\usepackage{graphicx, float, hyperref, wrapfig, subcaption}
-%\graphicspath{ {./plots/} }
-%\usepackage[xetex]{xcolor}
+\usepackage{a4wide}
+\usepackage{amsmath, amscd, amssymb, amsthm, latexsym}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, activeacute]{babel}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
 
-\usepackage{subfiles}
+\setlength{\parskip}{0.1em}
+\usepackage{caratula} % Version modificada para usar las macros de algo1 de ~> https://github.com/bcardiff/dc-tex
+
+\newcommand{\comment}[1]{} % Comando para poder 'comentar' (esconder) bloques largos de texto.
 
 \begin{document}
-
-\title{TP1: Técncias Algorítmicas}
-\author{Galileo Cappella}
-\date{2c 2022}
-
-%TODO: Carátula
-
+\titulo{Trabajo Práctico I}
+\subtitulo{Técnicas Algorítmicas}
+\fecha{21 de septiembre de 2022}
+\materia{Algoritmos y Estructuras de Datos III}
+\integrante{Cappella Lewi, Federico Galileo}{653/20}{galileocapp@gmail.com}
+\integrante{Mallol, Martín Federico Alejandro}{208/20}{martinmallolcc@gmail.com}
+\integrante{Teplizky, Gonzalo Hernán}{201/20}{gonza.tepl@gmail.com}
+\integrante{Stemberg, Uriel Nicolás}{213/20}{uri.stemberg@gmail.com}
 \maketitle
+\newpage
+
+\begin{abstract}
+    
+    Para este trabajo el enfoque ser\'a puesto en experimentar con distintas t\'ecnicas algoritmicas recursivas, con el fin de encontrar algoritmos m\'as r\'apidos y eficientes que aquellos que emplean fuerza bruta. Mas all\'a de que en la mayor\'ia de los casos sea imposible evitar una complejidad exponencial, se intentar\'a acotar lo m\'as posible el tiempo de c\'omputo de cada programa implementado en este trabajo. Se deben resolver tres ejercicios donde, cada uno de ellos se tratar\'a sobre el comportamiento de una de estas tres t\'ecnicas en espec\'ifico: backtracking, algoritmo goloso/greedy/miope (cualquiera de estas tres definiciones es v\'alida), y por \'ultimo, programaci\'on din\'amica. 
+    
+    En cuanto a los primeros dos ejercicios de este trabajo, el desempeño de las implementaciones ser\'a testeada por un  \textit{juez online}\footnote{\url{https://onlinejudge.org/}}.
+    
+    El informe se divide entre los tres ejercicios. La estructura de cada ejercicio es la siguiente:
+    
+    \begin{itemize}
+        \item \textbf{Introducción}: Se da un vistazo inicial del problema a resolver y la t\'ecnica algor\'itmica a utilizar. Luego se explica brevemente que caminos se tomaron y que experimentaci\'on se llev\'o a cabo (y con qu\'e fines).
+        
+        \item \textbf{Desarrollo}: Se explica con qué herramientas fue realizado el ejercicio en particular y de qué trata cada archivo donde fue realizada la implementación de los algoritmos.
+        
+        \item \textbf{Experimentación, resultados y discusión}: Se visitan las t\'ecnicas de backtracking, algoritmos greedy, y programaci\'on din\'amica. Se da un pantallazo inicial sobre c\'omo es el rendimiento de una implementaci\'on sin podas, con podas (tanto de restricci\'on como de optimalidad), y con memoizaci\'on en los casos donde se haya inclu\'ido. 
+
+        Tambi\'en se incluyen aquellas hip\'otesis que fueron confirmadas, o rechazadas, por los resultados que arrojaron los programas, y su consecuencia en la discusi\'on que conllev\'o en el grupo. Hubo pasos en falso como tambien aciertos. No siempre la implementaci\'on de una poda o la memoizacion con cierta estructura tiene por qu\'e mejorar dr\'asticamente el rendimiento de un algoritmo. 
+               
+        Luego de conocer cómo se comportan las distintas variantes de los algoritmos implementados en cada ejercicio,  se pone el foco en los tiempos de computos que dichas variantes arrojan y las comparamos entre s\'i para convalidar ciertas suposiciones. 
+        
+        \item \textbf{Conclusiones}: Se concluye que...
+        
+        Los valores ideales para los métodos fueron los siguientes: \newline
+        \textit{Ejercicio 1}: \textbf{blablabla.} \newline
+        \textit{Ejercicio 2}: \textbf{blablabla.} \newline
+        \textit{Ejercicio 3}: \textbf{blablabla.}  \newline
+    \end{itemize}
+    
+    \textbf{Palabras clave}: \textit{Fuerza Bruta}, \textit{Backtracking}, \textit{Greedy}, \textit{Programaci\'on Din\'amica}, \textit{Complejidad Temporal}, \textit{Complejidad Espacial}.
+\end{abstract}
+
+
+%A partir de aca se puede empezar a escribir o anexar un nuevo documento%
+
+%\section*{Resumen}
+%\input{resumen}
+
 \tableofcontents
+\thispagestyle{empty}
 
-\pagebreak
+\newpage
 
-\subfile{guias/g1}
+\section{Ejercicio 1}\label{sec:ej1}
+\input{ejercicio1.tex}
+
+\newpage
+
+\section{Ejercicio 2}\label{sec:ej2}
+\input{ejercicio2.tex}
+
+\newpage
+
+\section{Ejercicio 3}\label{sec:ej3}
+\input{ejercicio3.tex}
+
+
+\newpage
+
+
+\begin{thebibliography}{1}
+
+\bibitem{blabla} https://www.blablabla.com/blabla/
+\bibitem{blabla} https://www.blablabla.com/blabla/
+\bibitem{blabla} https://www.blablabla.com/blabla/
+
+\end{thebibliography}
 
 \end{document}

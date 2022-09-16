@@ -1,0 +1,27 @@
+EJERCICIO 1:
+
+EJERCICIO 2:
+
+EJERCICIO 3:
+- Obtener cuantas veces se quiso acceder a un elemento de la estructura de memoizacion. Graficarlo asi vemos la cantidad de llamadas recursivas que nos ahorramos implementando.
+- Escribir las funciones matematicas recursivas como en las clases
+- Hacer los tests de tiempo de ejecucion entre Top-Down y Bottom-Up para elegir un ganador. 
+
+Guidelines: 
+-Conjunto solucion: Todos los aspersores que riegan el terreno
+-Optimo: Conjunto que pertenece al conjunto solucion y tiene el menor coste
+                       
+    %minimoCoste: Nat x Int --> Nat
+    %minimoCoste(i,j) = | 0 si estaLleno(j)
+                       %| -1 si noSeVaALlenar(i,j)
+                       %| minimoCoste(i+1,j) si noSeVaALlenar(i+1,i)
+                       %| minimoCoste(i+1,i) + costo(i) si noSeVaALlenar(i+1,j)
+                       %| min(minimoCoste(i+1,j), minimoCoste(i+1,i) + costo(i)) cc
+
+    %noPuedoLlenarlo(i,j) = True <=> aspersores[j].limiteDerecho < aspersores[i].limiteIzquierdo (j izq, i derecha)
+    
+    %noSeVaALlenar(i,j) = | True si (i = n and !estaLleno(j)) or noPuedoLlenarloAhora(i,j))
+                         %| False si estaLleno(j)
+                         %| noSeVaALlenar(i+1,j) or noSeVaALlenar(i+1,i)
+
+    %estaLleno(j) = l = 0 or ((j != -1) and ~(aspersores[j]limiteDerecho < l)

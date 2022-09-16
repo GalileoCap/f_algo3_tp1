@@ -1,0 +1,82 @@
+En este segundo ejercicio se nos presenta el problema 10382 de UVA, \textit{Watering Grass}. \newline
+
+Se nos provee como dato un \textit{n} correspondiente a la cantidad de aspersores instalados en un terreno rectangular, el cual mide \textit{l * w}, siendo \textit{l} el largo, y \textit{w} el ancho del mismo.
+Además, cada uno de los aspersores en cuestión tendrá un radio \textit{r} y una distancia desde el extremo izquierdo del rectángulo, ubicándose cada uno en el centro horizontal del mismo. \newline
+
+Nuestro objetivo es, a partir de los inputs mencionados, encontrar \textbf{la mínima cantidad de aspersores} que nos cubran todo el rectángulo. \newline
+
+En este caso, procedimos a resolver el ejercicio bajo la técnica Golosa o Greedy, donde vamos a querer construir un procedimiento heurístico que pueda funcionar como algoritmo que efectivamente resuelva este problema. Para esto, tuvimos que comprender cuál era cada una de las decisiones golosas que debíamos tomar, es decir, la mejor en cada punto, y en base a eso, utilizar los datos del input a nuestro favor para llevar estas decisiones adelante. A continuación, detallaremos como llegamos a la solución, y luego daremos una muestra de la complejidad y la correctitud del algoritmo. \newline
+
+En las primeras interacciones con el problema llegamos a complicarnos, más que nada con las posiciones de los aspersores, pero luego de razonarlo, lo que pensamos y decidimos usar para la implementación, es el hecho de considerar que del rango de extensión de cada aspersor, realmente lo que nos interesa es todo el espacio de intersección que tiene con el rectángulo. Es decir, que si bien vemos al aspersor como una figura circular de radio \textit{r}, nos iba a alcanzar con quedarnos con el punto de la recta horizontal desde el que empieza a ocupar hasta el que termina, lo cual representa al pedazo del rectángulo que cubre cada aspersor. \newline
+
+Obviamente este pedazo va a ser mayor en la medida que el radio del circulo lo sea y se encuentre en una zona razonable dentro de los límites del rectángulo. Bajo esta idea, hay un tipo de aspersores que definitivamente no nos iban a servir, y a los cuales descartamos: aquellos cuyo diámetro no llega a alcanzar siquiera al ancho del rectángulo \textit{(2 * r $<$ w)}, dado que no nos servía para nada ese cubrimiento parcial que no era ni del ancho \textit{w}. Para todo aspersor que pasara por esta primera evaluación, buscamos la forma de ir de los datos provistos de cada uno de ellos, a calcular \textbf{el límite izquierdo y derecho de cada uno} dentro del rectángulo, de modo de conocer efectivamente cuánto se extienden. Quienes maximicen las diferencias entre los valores de ambos extremos, constituirán aspersores candidatos a formar parte de la solución óptima.\newline
+
+Con esto, planteamos la estructura de cada \textbf{subproblema} y \textbf{decisión golosa} \textit{i} a resolver: \newline
+
+-\textit{Subproblema i}: Hallar la mínima cantidad de aspersores requeridos con el que podamos cubrir el  rectángulo de forma tal que lo hagamos desde el extremo \textit{i} (visto horizontalmente) hasta el final del rectángulo.\newline
+
+-\textit{Decisión golosa i}: De todos los aspersores cuyo límite izquierdo sea menor o igual a \textit{i}, es decir, que empiecen en \textit{i}, que es hasta donde tenemos cubierto, o antes, tomamos el aspersor que sea de máximo cubrimiento, lo cual según definimos será aquel que maximice \textbf{limiteDer(aspersor) - limiteIzq(aspersor)}. \newline
+
+Con esto, podíamos directamente crear un algoritmo que aplique esta estrategia, del cual estábamos seguros que si intempestivamente tomábamos todo aspersor que más cubra, lo estaríamos haciendo con la mínima cantidad y seguro que llegaríamos al mismo valor que el de la solución óptima, teniendo en nuestras manos un algoritmo goloso. Pero, pensamos... ¿se podía hacer mejor que eso? La respuesta es sí. \newline
+
+Sucede que hacerlo así de naive, nos aumenta la complejidad en peor caso, ya que eventualmente podríamos estar recorriendo más de una vez los mismos aspersores. Puede darse, por ejemplo, de tener que cada uno de los \textit{n} aspersores ocupaba una porción igual del largo \textit{l} y de forma consecutiva de modo que requeríamos de los \textit{n} aspersores para cubrir el \textit{l} del rectángulo, teniendo una \textbf{complejidad de O(n*l)}. \newline
+
+Habiendo notado esto, vimos que si teníamos ordenados los aspersores por el límite izquierdo desde donde ocupan, entonces los analizaríamos consecutivamente según el lugar desde donde empiezan y sabemos que a lo sumo pasaríamos por ellos una sola vez. 
+Para implementar esto, utilizamos una \textit{cola de prioridad} como estructura de datos, la cual será llenada por aspersores cuya máxima prioridad se les asignará a los elementos de menor límite izquierdo dentro del pedazo de rectángulo que ocupan. \newline
+De esta forma, en cada decisión golosa tomada para resolver cada subproblema \textit{i} con i entre [1,n], nos manejaríamos solo dentro del rango de aspersores que no empiezan más alla del punto hasta el que llevamos cubierto, y nos quedaríamos con \textbf{el que más se extiende a la derecha}.  \newline
+Tomada la decisión, pudiendo haber o no terminado de cubrir todo el rectángulo en ese punto, sumaríamos un aspersor a la solución, y además, resolveríamos el subproblema \textit{i+1} considerando desde el primer elemento que no era candidato para el subproblema {i}. Con esto hecho, la complejidad del algoritmo goloso sería de \textbf{O(n)}, lineal en la cantidad de aspersores, aunque tendría un costo algo mayor si tomamos el costo del ordenamiento de la estructura que almacena los límites izquierdo y derecho de los aspersores.
+
+Un posible pseudocódigo que nos sirvió para entender el problema de esta forma, fue algo como: \newline
+
+\begin{algorithm}
+\caption{wateringGrass(A):}
+\begin{algorithmic} 
+\STATE ordenarAspersores(A)
+\STATE $i \leftarrow 0$
+\STATE $cubierto \leftarrow 0$
+\STATE $minAspersores \leftarrow 0$
+\WHILE{$i < |A| \wedge cubierto < w$}
+\STATE $cubierto \leftarrow $ aspersor de cubrimiento máx con extremo izq \leq $ cubierto$ \newline
+\STATE $i \leftarrow $ índice de primer aspersor con extremo izq $ > cubierto$ 
+\STATE $minAspersores \leftarrow minAspersores + 1$
+\ENDWHILE
+\RETURN $minAspersores$
+\end{algorithmic}
+\end{algorithm}
+
+Se ve que efectivamente se lleva adelante a lo sumo una pasada por cada aspersor, por lo que si preponderamos el costo de ordenamiento, podríamos resolverlo en \textbf{O(n * log n)}. \newline
+
+Nos queda, por último, probar la correctitud del algoritmo. Por la forma en la que trabajamos con este tipo de ejercicios, donde el peso se pone en gran parte sobre la demostración, nos propusimos a ver que: \newline
+
+$\bullet$ Si tengo una solución optima puedo modificarla para que use una elección golosa (1). \newline
+
+$\bullet$ Si tengo una secuencia de k decisiones golosas, puedo extenderlas para llegar a una óptima (2).\newline
+
+Lo que queremos con esto, es probar que el algoritmo goloso propuesto produce una solución óptima. \newline \newline 
+
+Comenzamos probando \textbf{(1)}: Queremos ver que \textbf{toda solución óptima para este problema es posible modificarla utilizando elecciones golosas}. Sabemos que existe la óptima, pero queremos aquella que use la golosa. Esto lo podemos demostrar de forma directa. \newline 
+
+Tomamos $R_{k}$ = $r_{1}$,.......,$r_{k}$ una solución óptima del subproblema \textit{i}, es decir, aquella que minimiza la cantidad de aspersores necesarios para cubrir desde el punto i hasta el final del rectángulo, y un \textit{r} \in $ R_{k}$ tal que \textit{r} representa un intervalo que contiene al \textit{i}. Seguro que existe un \textit{r} de estas características ya que no sería óptima la solución si hubiera algún pedazo del rectángulo no cubierto. \newline
+
+Como también habíamos mencionado, una decisión golosa en ese punto para resolver el subproblema \textit{i}, será tomar el aspersor de mayor extensión que cubra desde \textit{i} o antes al rectángulo.
+Si llamamos a ese aspersor $G_{i}$, y nuestro objetivo es poder introducirlo dentro de la solución óptima, lo que podemos hacer es, partiendo de $ R_{k}$, crear $ R_{k}'$  = $ R_{k}$ \cup $ G_{i}$ - r. \newline 
+
+Sabiendo que el aspersor $G_{i}$ es el de máximo cubrimiento que pasa por \textit{i}, entonces seguro que su cubrimiento sera $\geq$ al cubrimiento de \textit{r}, además de que, considerando que lo que hicimos fue básicamente reemplazar un aspersor por otro, seguiremos usando la mínima cantidad posible y cubriendo todo el rectángulo. Por lo tanto, $ R_{k}'$ es óptima utilizando una elección golosa, y en general, podremos fabricarnos todas las $ R_{k}''$ que deseemos reemplazando en cada subintervalo por la decisión golosa en ese punto, manteniéndonos en una solución óptima.
+{\qedwhite}{\hfill \ensuremath{\Box}} \newline\newline
+
+Por último, probemos \textbf{(2)}: queremos ver que \textbf{luego de tomar \textit{k} decisiones golosas $G_{k}$, $\forall k > 0$, se puede extender hacia una solución óptima.} Veámoslo por inducción en \textit{k}. \newline 
+
+P(k): $G_{k}$ se puede extender a una solución óptima $\forall k > 0$. \newline
+
+\textbf{Caso base con k = 0}: Como $G_{0}$ = $\emptyset$, es decir, aún no hemos tomado ninguna decisión golosa, luego si existe una solución óptima, lo voy a poder extender a ella.  \newline
+
+\textbf{Paso inductivo}: queremos ver que si vale P(k), lo hace también P(k+1). 
+Nuestra HI es que tomadas \textit{k} decisiones golosas, podemos extendernos hacia una sol. óptima, y queremos saber si vale para k+1 decisiones golosas. \newline
+
+Sabemos que a medida que vamos tomando estas decisiones, el subproblema restante se hace cada vez más chico. Tomadas k elecciones golosas, y con el rectángulo cubierto hasta por ejemplo, \textit{k}, nos queda por resolver el subproblema \textit{k+1}, que encuentre los aspersores mínimos necesarios para cubrir el pedazo de rectángulo que se extiende desde k hasta el final del mismo. \newline
+
+Si \textbf{por HI} sabemos que existe un $\gamma$ tal que $G_{1}$ \cup ........ \cup $ G_{k}$ \cup $ \gamma$ cubren todo el rectángulo, luego $\gamma$ es óptima para el subproblema \textit{k+1}. Pero adicionalmente, por lo demostrado en \textbf{(1)}, toda solución óptima puede modificarse con elecciones golosas. \newline
+
+Por lo tanto, con el mismo cubrimiento y la misma cantidad de aspersores utilizados, tendremos también una solución óptima que utilice la decisión golosa  $G_{k+1}$. Esto quiere decir que habrá un $ \gamma'$ que asegure que $G_{1}$ \cup ........ \cup $ G_{k}$ \cup $ G_{k+1}$ \cup $ \gamma'$ cubren todo el rectángulo usando la mínima cantidad de aspersores y por lo tanto, $ \gamma'$ es óptima para el subproblema \textit{k+2}, probando así que $G_{k+1}$ se puede también extender a una solución óptima, \textbf{como queríamos ver}. 
+{\qedwhite}{\hfill \ensuremath{\Box}} \newline\newline
+

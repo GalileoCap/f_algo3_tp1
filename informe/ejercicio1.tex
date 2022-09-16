@@ -1,0 +1,46 @@
+Como primer consigna, se nos plantea resolver el problema 1098 de UVA, \textit{Robots On Ice}.
+\newline 
+
+Tenemos como dato las dimensiones de una grilla de \textit{n} x \textit{m}, con n,m naturales pertenecientes al intervalo cerrado [2,8], junto a tres posiciones que establecemos como puntos de \textit{'check-in'} dentro de nuestro mapa. 
+
+Se espera que la grilla mencionada sea recorrida de forma tal que permita atravesar estos puntos al llegar a un cuarto, la mitad y las tres cuartas partes del recorrido a realizar, respectivamente. 
+
+En particular, el camino se hará comenzando por el \textit{extremo inferior izquierdo}, más precisamente en la posición (0,0) de nuestro mapa, debiendo finalizar el recorrido en la posición a su derecha, la (0,1), pasando exactamente una vez por cada posición, incluido cada uno de los check-ins, en el momento que corresponde. 
+
+Para realizar este recorrido, podremos movernos a cada uno de los puntos de alrededor, es decir, hacia abajo, arriba, a la derecha e izquierda.
+Nuestro objetivo es, a partir de todos los datos y las premisas que tenemos a disposición, hallar \textbf{cuantos recorridos válidos podemos realizar}.  \newline
+
+La resolución de este problema la llevaremos adelante usando la técnica algorítmica de Backtracking, implementación de fuerza bruta en la que buscaremos optimizar el algoritmo de forma tal que la cantidad y el tamaño de las entradas a utilizar pueda ser mayor que al no aplicar ningún tipo de optimización en particular, en pos de que el algoritmo termine para entradas más grandes. \newline
+
+Retomando la definición mencionada sobre el tablero y las posiciones recibidas, tenemos que por cada posicion hay cuatro direcciones posibles a las cuales podríamos eventualmente movernos. Esto nos da un total de $4^{n*m}$ mapas posibles, donde en realidad en vez de mapas estamos representando los movimientos que se tienen de una posicion (i,j) a otra similar vecina. Es decir, la \textbf{complejidad de una implementación por fuerza bruta va a ser de O($4^{n*m}$)}. 
+Siempre podemos movernos únicamente un paso por vez, y no es posible moverse en diagonal, por lo que los movimientos se reducen a los 4 ya mencionados. \newline
+
+Pero notemos que todas estas combinaciones posibles de movimientos no representan efectivamente un mapa buscado. Para empezar, una vez que nos movemos de un casillero a otro, no esperamos volver sobre nuestros pasos. Es decir, se pretende recorrer cada posición del tablero una única vez, lo cual nos da la pauta de que es necesario llevar un registro de las posiciones recorridas. 
+De este modo, parados en una posición, debemos poder saber si es posible movernos, y en ese caso, a dónde. Esto puede ser efectivamente realizable sólo si la posición vecina no fue visitada, y si el movimiento que se pretende hacer no excede los bordes del tablero, en principio.\newline
+
+Esto último nos ofrece una nueva etapa de control. Si estoy en un determinado borde de la grilla, tengo que considerar solamente aquellas posiciones relativas a las que puedo moverme desde donde estoy, de forma tal que dichas posiciones pertenezcan al tablero. Estas consideraciones son el primer paso hacia una resolución de BT en la que \textbf{aplicaremos podas} en pos de reducir el scope de soluciones candidatas-no válidas. \newline
+
+En este camino a la aplicación de las podas, en el marco de la extensión de las soluciones parciales, con la meta de poder cortar toda rama del árbol que sí estaría considerada por una fuerza bruta, comenzamos determinando que para aquellos caminos que logren llegar hasta el final del mapa sin haber ``retrocedido'' o sido podados, es decir, los que lleguen al paso n*m en la posición (0,1), serán solución válida que sumará al contador de caminos a devolver como resultado.  Caso contrario, serán soluciones parciales que tratarán de extenderse generando 4 nuevos mapas: aquellos resultantes de moverse hacia cualquiera de los 4 puntos, a priori, posibles. \newline
+
+%Explicar como es que andaba la función willSplit por la 4ta pregunta y pulir lo del hash
+
+Decimos que a priori posibles ya que la imposibilidad de moverse hacia alguno o incluso a todos los puntos de alrededor, constituirán la primer poda. Implementamos la idea de tener un mapa como una estructura que podría llegar o no a modificarse en cada recursión, pudiendo cambiar en cada paso, lo cual dependerá de si podemos avanzar en alguna dirección, algo que resolvimos preguntándonos por cada una: \newline\newline
+-\textbf{¿Está en rango?} (Posición válida de la grilla de n*m)\newline
+-\textbf{¿Está ocupada?} Para ver esto, registramos nuestros pasos efectivos de modo tal que armamos una función que verifica con un hash.\newline
+-\textbf{¿Está bloqueada?} Consiste en ver que avanzar hacia la posición en cuestión, no nos va a dejar encerrados luego, obligándonos a volver sobre nuestros pasos.\newline
+-\textbf{¿Divide en dos el mapa?} \newline\newline
+
+Aquí ya estamos podando, y si salimos airosos de esta verificación para movernos, entonces generamos el nuevo mapa, contando un paso más, y con la nueva posición ocupada. Puede resultar algo trivial lo hecho, aunque necesario, pero lo que realmente requerimos para dejar armado un algoritmo cuya terminación pueda ser rápida para inputs razonables, es otro tipo de podas, algo más ``valientes''. 
+Sabemos que este es un ejercicio que nos plantea objetivos parciales, que son los puntos de \textit{check-in}. Estos son los principales elementos para evaluar el mapa que hemos construido.\newline\newline
+De ahí es que nos surgieron tres nuevas preguntas: \newline\newline
+-\textbf{¿Si el paso al que llegamos superó el valor de algún \textit{check-in}, a éste ya lo atravesamos?}\newline
+-\textbf{¿Si el paso al que llegamos no alcanzó el valor de algún \textit{check-in}, a éste aún no lo atravesamos?}\newline
+-\textbf{Es más. Para cada punto de \textit{check-in} no atravesado. La distancia a la que estamos de éste, ¿es menor o igual a la cantidad de pasos que a lo sumo podríamos realizar hasta tener que arribar a él?}\newline\newline
+Una vez nos hicimos estas preguntas, pudimos llegar a las podas finales con las cuales convertimos al algoritmo en algo razonable. Con razonable, \textit{veáse} que anterior a estas podas, el simulador en el Juez no finalizaba en el tiempo pedido. \newline\newline
+La primera de las dos podas es por \textbf{factibilidad}: si ya tendríamos que haber pasado por algún \textit{check-in} dado el número que posee, y en el paso actual no lo hicimos aún, ya estamos ante un camino incorrecto. Lo mismo aplica al revés. Si para el momento en el que evaluamos hemos pasado por un  \textit{check-in} cuyo número es mayor al del paso actual, también incumplimos la consigna. \newline\newline
+La segunda poda es por \textbf{optimalidad}: si bien puede parecer que estamos por buen camino porque no pasamos por un \textit{check-in} en el momento incorrecto, ni nos olvidamos a alguno por el mapa, si el próximo punto de control por el que tenemos que pasar está a mayor \textit{distancia Manhattan o Euclidiana}\footnote{\url{https://es.wikipedia.org/wiki/Distancia_euclidiana}} que la cantidad de pasos que podemos dar aún hasta llegar a éste, es que tampoco llegaremos a buen puerto con el mapa actual. \newline\newline 
+Aplicado esto, logramos resolver eficientemente el problema y pasar los tests del Juez. \newline 
+
+% Ver si complementar o no esta información
+En cuanto a tests unitarios:\newline 
+Además, pensamos una resolución agregándole Programación Dinámica al problema, proponiendo una codificación especial de las posiciones: 
