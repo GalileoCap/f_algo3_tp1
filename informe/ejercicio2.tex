@@ -16,9 +16,12 @@
 \subsection{Algoritmo}
 \label{sec:ej2-algo}
 
-%TODO: Círculos -> Rectángulos, espacio no cubierto <=> No chocan
+\paragraph{} El problema requiere calcular el area del rectángulo que cada aspersor cubre. Pero se puede ver que de cada aspersor sólo nos importa el area rectangular entre los puntos donde interseca con el rectángulo del cuarto, ya que el area cubierta afuera sólo puede ser ocupada por el area rectangular de otro aspersor o dejaría un area sin cubrir por ningún aspersor (ver Figura \ref{fig:two-sprinlers}). \\
+\indent Entonces los aspersores con radio \(r_i < \frac{w}{2}\) pueden ser ignorados, ya que no llegan a intersecar con el lado del rectángulo. Y para los aspersores que quedan se los considera no como círculos, sino como su rectángulo subyacente (ver Figura \ref{fig:simple-sprinkle}).
 
-\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(x_{il}\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(x_{i_0l} \leq 0\) y que maximice la distancia entre 0 y \(x_{i_0r}\), para después repetir este paso, pero buscando \(x_{i_1l} \leq x_{i_0r}\), y máxima distancia entre \(x_{i_0r}\) y \(x_{i_1r}\), y así hasta o mo haber más aspersores (caso que no se puede resolver) o haber llenado el cuarto (caso que se encontró la solución optima, ver \textbf{\ref{ej2-dem} Demostración}). \\
+%TODO: Figura rectángulo y círculos
+
+\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(x_{il}\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(x_{i_0l} \leq 0\) y que maximice la distancia entre 0 y \(x_{i_0r}\), para después repetir este paso, pero buscando \(x_{i_1l} \leq x_{i_0r}\), y máxima distancia entre \(x_{i_0r}\) y \(x_{i_1r}\), y así hasta o mo haber más aspersores (caso que no se puede resolver) o haber llenado el cuarto (caso que se encontró la solución optima, ver \textbf{\ref{sec:ej2-dem} Demostración}). \\
 En esencia, repitiendo el problema habiendo avanzado hacia cubrir todo el cuarto.
 
 \paragraph{} Como miramos cada aspersor una vez, el algoritmo resuelve el problema en \(\bigO{n}\) pasos, aunque tiene el overhead \(\bigO{n\ log(n)}\) de ordenar los aspersores. Por lo que el problema lo resolvemos en \(\bigO{n\ log(n)}\) pasos. %TODO: Complejidad de cálculos
