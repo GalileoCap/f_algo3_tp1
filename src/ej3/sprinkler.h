@@ -2,9 +2,9 @@
 
 #include "utils.h"
 
-struct SprinklerList {
+struct pricedSprinklerList {
   struct Sprinkler;
-  SprinklerList(const ulong n, const ulong _l, const ulong _w);
+    pricedSprinklerList(const ulong n, const ulong _l, const ulong _w);
 
   void emplace(const ulong r, const ulong pos, const ulong cost); //U: Adds a new sprinkler to the queue only if its valid
 

@@ -1,15 +1,15 @@
 #include "sprinkler.h"
 
-SprinklerList::SprinklerList(const ulong n, const ulong _l, const ulong _w) : l(_l), w(_w) {
+pricedSprinklerList::pricedSprinklerList(const ulong n, const ulong _l, const ulong _w) : l(_l), w(_w) {
   sprinklers.reserve(n);
 }
 
-void SprinklerList::emplace(const ulong r, const ulong pos, const ulong cost) { //U: Adds a new sprinkler to the queue only if its valid
+void pricedSprinklerList::emplace(const ulong r, const ulong pos, const ulong cost) { //U: Adds a new sprinkler to the queue only if its valid
   struct Sprinkler s(r, pos, cost, w);
   if (s.valid) sprinklers.push_back(s);
 }
 
-SprinklerList::Sprinkler::Sprinkler(const ulong _r, const ulong _pos, const ulong _cost, const ulong w) : valid((2 * _r) >= w), r(_r), pos(_pos),cost(_cost) {
+pricedSprinklerList::Sprinkler::Sprinkler(const ulong _r, const ulong _pos, const ulong _cost, const ulong w) : valid((2 * _r) >= w), r(_r), pos(_pos),cost(_cost) {
   if (valid) {
     double dpos = std::sqrt((double)(r * r) - (double)(w * w) / 4); //A: Solve for x^2 + w^2 = r^2
     leftLim = (double)pos - dpos;
@@ -17,19 +17,19 @@ SprinklerList::Sprinkler::Sprinkler(const ulong _r, const ulong _pos, const ulon
   }
 }
 
-bool SprinklerList::Sprinkler::operator<(const struct Sprinkler& s1) const { //U: For the queue
+bool pricedSprinklerList::Sprinkler::operator<(const struct Sprinkler& s1) const { //U: For the queue
   return leftLim < s1.leftLim;
 }
 
-inline bool SprinklerList::canFill(const uint i, const uint j) const {
+inline bool pricedSprinklerList::canFill(const uint i, const uint j) const {
   return !(sprinklers[i].leftLim > ((j != -1) ? sprinklers[j].rightLim : 0));
 }
 
-inline bool SprinklerList::isFull(const uint last) const {
+inline bool pricedSprinklerList::isFull(const uint last) const {
   return l == 0 || ((last != -1) && !(sprinklers[last].rightLim < (double)l));
 }
 
-int SprinklerList::solve() {
+int pricedSprinklerList::solve() {
   std::vector<int> M(sprinklers.size()+1);
   std::sort(sprinklers.begin(), sprinklers.end());
 

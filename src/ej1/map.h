@@ -9,12 +9,12 @@ struct Map {
   void setAt(const struct Coord& pos, const bool val);
   bool getAt(const struct Coord& pos) const;
 
-  inline bool inRange(const struct Coord& pos) const;
-  inline bool canGo(const struct Coord& pos) const;
-  inline uint freeNeighbors(const struct Coord& pos) const;
+  bool inRange(const struct Coord& pos) const;
+  bool canGo(const struct Coord& pos) const;
+  uint freeNeighbors(const struct Coord& pos) const;
 
-  inline bool isBlocked(const struct Coord& pos) const; //U: This position doesn't have an escape
-  inline bool willSplit(const struct Coord& pos) const; //U: Setting this position will split the map in two
+  bool isBlocked(const struct Coord& pos) const; //U: This position doesn't have an escape
+  bool willSplit(const struct Coord& pos) const; //U: Setting this position will split the map in two
   bool check(const struct Coord& pos) const;
   
   ulong hash;

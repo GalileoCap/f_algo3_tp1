@@ -1,5 +1,27 @@
 #include "tourCounter.h"
 
+bool TourCounter::inputTests(int rows, int cols, const struct Coord& checkin1, const struct Coord& checkin2, const struct Coord& checkin3){
+    //Reads the map's dimensions and check-ins from parameters
+
+    if (rows == 0 || cols == 0) return false; //Invalid size, assume end of test
+    _map = Map(rows, cols);
+
+    //Read the check-ins
+    _checkIns[1] = std::make_pair(checkin1, rows * cols / 4);
+    _checkIns[2] = std::make_pair(checkin2, rows * cols / 2);
+    _checkIns[3] = std::make_pair(checkin3, 3 * rows * cols / 4);
+
+    //Include the beginning and ending positions
+    _checkIns[0] = std::make_pair(START_POS, 1);
+    _checkIns[N_CHECKINS + 1] = std::make_pair(END_POS, rows * cols);
+
+    _pos = START_POS;
+    _map.setAt(_pos, true);
+    _step = 1;
+
+    return true;
+}
+
 bool TourCounter::input() { //U: Reads the map's dimensions and check-ins from stdin and resets
   int rows, cols;
   std::cin >> rows >> cols;

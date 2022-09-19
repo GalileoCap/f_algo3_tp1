@@ -9,7 +9,7 @@ void SprinklerList::emplace(const ulong r, const ulong pos) { //U: Adds a new sp
 
 SprinklerList::Sprinkler::Sprinkler(const ulong _r, const ulong _pos, const ulong w) : valid((2 * _r) >= w), r(_r), pos(_pos) {
   if (valid) {
-    double dpos = std::sqrt((double)(r * r) - (double)(w * w) / 4); //A: Solve for x^2 + w^2 = r^2
+    double dpos = std::sqrt((double)(r * r) - (double)(w * w) / 4); //A: Solve for x^2 + (w/2)^2 = r^2
     leftLim = (double)pos - dpos;
     rightLim = (double)pos + dpos;
   }

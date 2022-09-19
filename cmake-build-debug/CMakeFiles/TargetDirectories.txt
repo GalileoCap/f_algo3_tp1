@@ -1,0 +1,5 @@
+/home/tincho/Desktop/algo3_tp1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/tincho/Desktop/algo3_tp1/cmake-build-debug/CMakeFiles/gtest.dir
+/home/tincho/Desktop/algo3_tp1/cmake-build-debug/CMakeFiles/correrTests.dir
+/home/tincho/Desktop/algo3_tp1/cmake-build-debug/CMakeFiles/gtest_main.dir
+/home/tincho/Desktop/algo3_tp1/cmake-build-debug/CMakeFiles/edit_cache.dir

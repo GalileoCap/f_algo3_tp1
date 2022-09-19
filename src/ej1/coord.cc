@@ -36,11 +36,21 @@ bool Coord::operator!=(const struct Coord& Y) const {
   return !(*this == Y);
 }
 
+// La posición (0, 0) te da 0, la (1, 0) te da 1, la (2, 0) 2... la (0, c) te da c
 uint Coord::toIdx(const uint cols) const {
   return x + cols * y;
 }
 
+// La (0, 0) te da 0000...0001, la (1, 0) 0000...0010, y así
 ulong Coord::toMap(const uint cols) const {
   ulong res = 1;
   return (res << (ulong)toIdx(cols));
 }
+
+/*
+ Comportamiento toMap               Comportamiento toIdx
+ ^                                  ^
+ |--------> 2c+1 a 3c (binario)     |--------> 2c a 3c-1 (entero)
+ |--------> c+1 a 2c  (binario)     |--------> c a 2c-1  (entero)
+ |--------> 1 a c     (binario)     |--------> 0 a c-1   (entero)
+*/
