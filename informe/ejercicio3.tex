@@ -2,118 +2,42 @@
 
 \begin{document}
 
-Por último, en el tercer ejercicio se debe trabajar con una variante del anterior. 
-\newline
+\section{Ejercicio 3: Programación Dinámica}
+\label{sec:ej3}
 
-Vamos a contar con un terreno de $l \cdot w$, siendo nuevamente $l$ el $largo$ y $w$ el $ancho$, pero ahora el planteo del problema es un poco distinto. Se vuelve a tener a disposición una cantidad $n$ de aspersores con su $radio "r"$ y su posición \(pos\), pero se les agrega un atributo más, su $costo "c"$. Aquí radica la escencia del problema, ya que en vez de tener que encontrar la menor cantidad posible de aspersores que puedan regar todo el terreno, se debe encontrar el conjunto de aspersores que pueda \textbf{cubrir todo el terreno} y que \textbf{su costo total sea el mínimo posible} (entre todos los conjuntos de aspersores que pueden cubrir el jardín). Como el algoritmo que emplearemos arroja el mínimo costo posible y no el conjunto de aspersores, si hay más de un conjunto de aspersores que cumplan con el mínimo costo no altera el resultado final de la función.
-\newline
+\subsection{Presentación}
+\label{sec:ej3-intro}
 
-Para resolver este problema en particular, se tomó como técnica algorítmica la \textbf{"Programación Dinámica"}, porque se buscó evitar que la función que soluciona este ejercicio no resuelva el mismo problema varias veces. Si esto ocurriera, se perdería mucho tiempo ejecutando cosas a las cuales ya se le conocen su valor.
-\newline
+\paragraph{} El tercer ejercicio nos pide trabajar con una variante del \textbf{Ejercicio \ref{sec:ej2}}.
 
-A la hora de plantear el problema, tomamos un camino distinto al de la resolución \(golosa\) anteriormente mencionada. En vez de tener una \textbf{cola de prioridad} donde los aspersores están ordenados de mayor a menor según su prioridad (a menor límite izquierdo, mayor la prioridad), empleamos un \textbf{vector} para posicionarlos. Primero cargamos a los aspersores en este en base a su posición de llegada (es decir, el primero en ser cargado vía consola irá a la primer posicion, el segundo a la segunda, y así hasta el aspersor número "n"). Una vez que el vector estuvo listo, se lo ordenó con $mergesort$ (coste \textbf{O(n $\cdot$ log n)}) nuevamente según su límite izquierdo en el jardín. La única diferencia es que ahora, para poder acceder a un aspersor, podemos hacerlo con su índice en \textbf{O(1)} sin alterar las propiedades del vector, mientras que con la cola de prioridad, sí o sí deberíamos desencolar sus elementos para llegar a determinada posición i, con i \(\in \lbrace 1, \ldots, |cola| \rbrace\).
-\newline
+\paragraph{} Se trabaja sobre el mismo contexto, con un cuarto de largo \(l\) y ancho \(w\), y \(n\) aspersores de radio \(r_i\) y posición \((x_i, \frac{w}{2})\), con \(0 \leq x_i \leq l \in \mathbb{N}_0\). Pero ahora cada aspersor también tiene un costo \(c_i \in \mathbb{N}\). Y se busca cubrir todo el rectángulo sumando la menor cantidad de costo posible. Devolviendo el costo mínimo o \(-1\) si no se puede cubrir el rectángulo entero.
 
-Con nuestro conjunto ordenado de aspersores ya conocido, llamémoslo $\mathbb{A}$, donde $a_i$ es el \(i\)-ésimo aspersor, especificamos el problema. Se busca encontrar la solución X tal que $X \subset \mathbb{A}$ y X riega todo el jardín y $\forall Y \subset \mathbb{A}$ que riegue todo el jardín, $costeTotal(Y) = \sum_{i=1}^{|Y|}costo(y_{i}) \geq \sum_{i=1}^{|X|}costo(x_{i}) = costeTotal(X)$. Veamos cómo es la función que resuelve esta problemática.
-\newline
+\subsection{Algoritmo}
+\label{sec:ej3-algo}
 
-Se llama $\textbf{f(i,j) = costeTotal(X)}$. Tener en cuenta que, para todas las funciones a continuación con los parametros $i,j$, estos corresponden al \(i\)-ésimo y \(j\)-ésimo aspersor respectivamente. Y además, el $aspersor_i$ siempre está \textbf{a la derecha} del $aspersor_j$. Con esto en mente, la función principal (junto con sus auxiliares) es la siguiente: 
-\newline
-    %minimoCoste: Nat x Int --> Nat
+\paragraph{} Como es un problema de combinatoria utilizamos \textbf{Backtracking} para resolverlo. \\
+Reducimos el problema a decidir qué aspersor conviene poner luego de haber puesto cualquier otro aspersor. \\
+Expresamos el problema con la siguiente función, donde los parámetros \(i\) y \(j\) corresponden al \(i\)-esimo y \(j\)-esimo aspersor respectivamente. Y además, \(i > j\).
 \begin{equation}
- \label{función para el mínimo coste de aspersores}
- f(i,j) = \left\{
-       \begin{array}{ll}
-     0      & \mathrm{si\ } estaLleno(j) \\
-     -1  & \mathrm{si\ } noSeLlenara(i,j) \\
-     f(i+1,j)     & \mathrm{si\ } noSeLlenara(i+1,i) \\
-     f(i+1,i) + costo(i)     & \mathrm{si\ } noSeLlenara(i+1,j) \\
-     min((f(i+1,j), f(i+1,i) + costo(i))) & cc
-       \end{array}
-     \right.
-\end{equation}
-
-   % ANIMATE A PROCEDER QUE PEDAZO DE COMUNISTA LOKO JAJAJAJAJA ESTOY DANDO MI VIDA POR ESTE TP NO DUDO QUE TU DEMOSTRACION SERA FABULOSA VOY A ESO, QUE ME ESPERAN LOS SOCKETS DSPS GOOOOOD LA CLASE DE HOY PINTA PARA MASACRE, QUE LA DISFRUTEN LOS QUE VAN. DIOS NOS LIBRE
-
-%noSeVaALlenar(i,j) = | True si (i = n and !estaLleno(j)) or noPuedoLlenarloAhora(i,j))
-                         %| False si estaLleno(j)
-                         %| noSeVaALlenar(i+1,j) or noSeVaALlenar(i+1,i)
-\begin{equation}
- \label{función para ver si se va a llenar el terreno}
- noSeLlenara(i,j) = \left\{
-       \begin{array}{ll}
-     True      \phantom{aaaaaaa} \mathrm{si\ } (i = n \land \neg estaLleno(j)) \lor noPuedoLlenarlo(i,j)) \\
-     False   \phantom{aaaaaal} \mathrm{si\ } estaLleno(j) \\
-     noSeLlenara(i+1,j) \lor noSeLlenara(i+1,i) \phantom{aaaa}  \mathrm{cc\ }  \\
-       \end{array}
-     \right.
+  f(i, j) = \begin{cases}
+     0  & \text{si } estaLleno(j) \\
+     +\infty & \text{si } i > n \lor_L \neg puedeLlenarlo(i, j) \\
+     min((f(i+1, j), f(i+1, i) + costo_i)) & otherwise
+   \end{cases}
 \end{equation}
 
 \begin{equation}
- \label{función para ver si se puede llenar el terreno entre medio de los aspersores i,j}
- noPuedoLlenarlo(i,j) = limiteDerecho(aspersores_j) < limiteIzquierdo(aspersores_i). 
+ estaLleno(j) = (l = 0) \lor (i \neq 0 \land_L der_j \geq l)
 \end{equation}
 
 \begin{equation}
- \label{función para ver si con el aspersor actual se cubre el final del terreno}
- estaLleno(j) = (l = 0) \lor ((j \neq -1) \land \neg(limiteDerecho(aspersores_j) < l) 
+ puedeLlenarlo(i, j) = (j = 0 \land izq_i \leq 0) \lor_L izq_i \leq der_j
 \end{equation}
 
+\paragraph{} El problema se resuelve con \(f(1, 0)\) ya que devuelve el mínimo costo de un conjunto de aspersores que pertenece a todos aquellos conjuntos de aspersores que riegan completamente el terreno. Es decir, si \(\mathbb{O} = \{o_1, \ldots, o_m\}\) la solución óptima, siendo \(\mathbb{S}\) el conjunto de soluciones posibles, entonces se tiene \(\mathbb{O} \in \mathbb{S} \iff f(1, 0) = \sum_{o \in \mathbb{O}}costo_o\). \\
+Esta función tiene este comportamiento ya que existen dos casos, uno en el que el aspersor actual \(i\) forma parte de una solución parcial \(\mathbb{O}'\) de \(k\) elementos, y otro donde no lo hace. Si forma parte, la solución total al problema será \(costo_i + \sum_{o' \in \mathbb{O}'}costo_{o'}\). Mientras que si no lo hace, entonces el costo de la solución óptima \(\sum_{o' \in \mathbb{O}'}costo_{o'}\). Siempre y cuando exista ese óptimo, lo elegiremos, mientras que si no hay solución al problema, se devolverá \(+\infty\).
 
-La función se resuelve con \textbf{f(0,-1)} y devuelve el mínimo coste de un conjunto de aspersores que pertenece a todos aquellos conjuntos de aspersores que riegan completamente el terreno. Es decir, si $\mathbb{O}$ = $\lbrace o_1,...,o_m  \rbrace$ la solución óptima, siendo $\mathbb{S}$ el conjunto de soluciones posibles, entonces se tiene $\mathbb{O} \in \mathbb{S}$ / $f(0,-1)$ = $\sum_{i=1}^{|\mathbb{O}|}costo(o_{i})$.
-\newline
-
-Esta funcion tiene este comportamiento ya que existen dos casos, uno en el que el aspersor actual $a_i$ forma parte de un conjunto óptimo $\mathbb{O}'$ de $r$ elementos, y otro donde no lo hace. Si forma parte, la solución al problema será $(\sum_{i=1}^{r-1}costo(o_{k}')) + costo(a_i)$. Mientras que si no lo hace, entonces el costo de la solucion optima $\mathbb{O}'$  de $r$ elementos es $\sum_{i=1}^{r}costo(o_{k}')$. Siempre y cuando exista ese óptimo, lo elegiremos, mientras que si no hay solución al problema, es decir, el conjunto solución $\mathbb{S}$ está vacío, se devolverá $-1$.  
-\newline
-
-Ahora bien, \textbf{¿vale la pena memoizar?} Si la función es correcta se puede simplemente programar y listo. El problema ya se resuelve. Sin embargo, el inconveniente que se presenta es que existe la superposición de subproblemas en este algoritmo, ya que calculamos muchas veces instancias ya resueltas. Por esto mismo, empleamos \textbf{Programación Dinámica}. Esto se debe a que la cantidad de llamados recursivos es $\Omega(2^{n}????????)$, mientras que la cantidad de subinstancias es ${O(n^2)}$. Por lo que presentamos una cantidad de llamadas exponencial mientras que las subinstancias son mucho menores al ser polinomial. Recordando que $n$ es la cantidad de aspersores \textit{válidos}\footnote{Llamamos a un aspersor \textbf{válido} si su diámetro de riego puede cubrir el ancho del terreno.} dentro del terreno.
-\newline
-
-Para la memoización primero optamos por el enfoque \textbf{Top-Down}. Empleamos como estructura para guardar los datos ya calculados una matriz de $n+1 \times n+1$. Este algoritmo tiene una $complejidad$ $temporal$ y $espacial$ de $O(n^{2})$ (por la dimensión de la matriz). Su pseudocódigo es el siguiente:
-\newline
-
-% ME FALTA DE ACA PARA ABAJO!
-\begin{algorithm}
-\caption{menorCostoTopDown(A):}
-\begin{algorithmic} 
-\STATE Se inicializa M de $n+1 \times n+1$ con \(\bot\)
-\RETURN f(0,-1) tal que
-\STATE \textbf{f(i,j):}
-\IF{estaLleno(j)}
-\RETURN 0
-\ENDIF
-\IF{noSeLlenara(i,j)}
-\RETURN -1
-\ENDIF
-\IF{M[i,j] = \(\bot\)}
-\IF{noSeLlenara(i+1,i)}
-\STATE M[i,j] \(\leftarrow\) f(i+1,j) 
-\ENDIF
-\ENDIF
-\STATE $i \leftarrow 0$
-\STATE $cubierto \leftarrow 0$
-\STATE $minAspersores \leftarrow 0$
-\RETURN $minAspersores$
-\end{algorithmic}
-\end{algorithm}
-
-Luego fuimos por un enfoque \textbf{Bottom-Up} para poder comparar ambos métodos y ver realmente cuál es el que ahorra más tiempo de ejecución al eliminar pasos redundantes en el árbol recursivo. Se volvió a disponer, en principio, de una matriz de $n+1 \times n+1$, pero en vez de tener un algoritmo \textbf{recursivo}, este es \textbf{iterativo}. Se itera a la matriz de \textit{izquierda a derecha} y de \textit{abajo a arriba}. Es decir, cuando estamos parados en una \textit{fila i}, la recorremos desde su $primera$ posición hasta su \(i\)-ésima posición. Esto se repite partiendo desde la \textit{n+1-ésima fila} hasta la $primera$. Como en la funcion $f$ anteriormente mencionada el parámetro $i$ nunca es mas grande que el parámetro $j$, no se visitan aquellas celdas donde el número de la fila sea mayor al de la columna. Para finalizar con la explicación, el algoritmo queda con \textit{complejidad temporal y espacial O(n$^{2}$)} (por la matriz también). Teniendo esto en mente, mostramos el algoritmo:
-\newline
-
-PSEUDOCODIGO
-\newline
-
-Al finalizar la implentación \textbf{Bottom-Up} notamos algo clave. Se puede \textit{ahorrar espacio} con la estructura de memoización. No hace falta tener una matriz de $n+1 \times n+1$ para representar todas las soluciones, (tanto parciales como candidatas). Al no tener que reconstruir la solución ya que sólo se debe devolver el coste y no los aspersores que pertenecen al conjunto óptimo, podemos \textbf{desechar la matriz} y tener como estructura de memoización un \textbf{vector} de longitud $n+1$, guardando solamente la \textit{fila anteriormente calculada} y no todas las filas anteriores como sucedía con la matriz. Esto no mejora la \textit{complejidad temporal} pero sí la $espacial$, dejándola en $O(n)$ en vez de O(n$^{2}$). Una mejora considerable en utilización de memoria. Su implementación quedó de la siguiente forma:
-\newline
-
-PSEUDOCODIGO
-\newline
-
-COMPARACION DE TIEMPOS DE EJECUCION ENTRE TOP-DOWN Y BOTTOM-UP PARA ELEGIR A UN GANADOR.
-\newline
-
-CONCLUSI\'ON
-
-%% Hablar de por que la funcion funciona, luego del enfoque top down, despues el bottom up con matriz, y luego el bottom up sin matriz.
+\paragraph{} Como se puede ver, hay \(\bigO{n^2}\) instancias del problema, y para cada una se hacen dos llamadas recursivas, por lo que se llama \(\Omega(2^n)\) veces al problema. Entonces, resaltando que \(n^2 \ll 2^n\), podemos afirmar que hay \textbf{superposición de problemas} y nos conviene usar \textbf{Programación Dinámica}. \\
+Empleamos un enfoque \textbf{Bottom-Up} en el que llenamos iterativamente una matrix \(M \in \mathbb{N}_0^{n \times (n+1)}\) de izquierda a derecha y de abajo hacia arriba, de forma tal que \(M[i][j] = minCost(i, j)\). Y como no se pide reconstruir la solución y en las llamadas de la función siempre tenemos que \(i \leq j\), para ninguna instancia se revisan ni filas más arriba ni columnas más a izquierda, entonces podemos aprovechar y reducir la matriz a un sólo vector que se reuitiliza, por lo que el algoritmo queda con complejidad temporal de \(\bigO{n^2}\) y espacial de \(\bigO{n}\).
 
 \end{document}
