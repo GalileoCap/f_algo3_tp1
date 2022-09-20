@@ -2,28 +2,39 @@
 \documentclass[12pt]{article}
 \usepackage[margin=1.0in]{geometry}
 
-\usepackage{g-util, g-algo3}
-\usepackage{amsfonts, amsmath, amssymb, amsthm}
-\usepackage{tikz, tikz-qtree}
-%\usepackage{graphicx, float, hyperref, wrapfig, subcaption}
-%\graphicspath{ {./plots/} }
-%\usepackage[xetex]{xcolor}
-
+\usepackage{g-util, g-uba, g-algo}
 \usepackage{subfiles}
+\usepackage{tikz}
+
+\renewcommand{\figurename}{Fig.}
 
 \begin{document}
 
-\title{TP1: Técncias Algorítmicas}
-\author{Galileo Cappella}
-\date{2c 2022}
-
-%TODO: Carátula
-
+\titulo{TP1: Técnicas Algorítmicas}
+%\subtitulo{Técnicas Algorítmicas}
+\fecha{21 de Septiembre de 2022}
+\materia{Algoritmos y Estructuras de Datos III}
+\integrante{Cappella Lewi, Federico Galileo}{653/20}{glewi@dc.uba.ar}
+\integrante{Mallol, Martín Federico Alejandro}{208/20}{martinmallolcc@gmail.com}
+\integrante{Teplizky, Gonzalo Hernán}{201/20}{gonza.tepl@gmail.com}
+\integrante{Stemberg, Uriel Nicolás}{213/20}{uri.stemberg@gmail.com}
 \maketitle
+
+\newpage
+\begin{abstract}
+  En este trabajo se resuelven tres ejercicios de la cátedra usando distintas técnicas algorítmicas para explorar espacios de soluciones, buscando encontrar un método que sea eficiente. \\
+  \textbf{Palabras clave}: \textit{Fuerza Bruta}, \textit{Backtracking}, \textit{Greedy}, \textit{Programación Dinámica}, \textit{Complejidad Temporal}, \textit{Complejidad Espacial}.
+\end{abstract}
+
 \tableofcontents
 
-\pagebreak
+\newpage
+\subfile{ejercicio1.tex}
 
-\subfile{guias/g1}
+\newpage
+\subfile{ejercicio2.tex}
+
+\newpage
+\subfile{ejercicio3.tex}
 
 \end{document}
