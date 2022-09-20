@@ -21,7 +21,7 @@
 
 %TODO: Figura rectángulo y círculos
 
-\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(x_{il}\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(x_{i_0l} \leq 0\) y que maximice la distancia entre 0 y \(x_{i_0r}\), para después repetir este paso, pero buscando \(x_{i_1l} \leq x_{i_0r}\), y máxima distancia entre \(x_{i_0r}\) y \(x_{i_1r}\), y así hasta o mo haber más aspersores (caso que no se puede resolver) o haber llenado el cuarto (caso que se encontró la solución optima, ver \textbf{\ref{sec:ej2-dem} Demostración}). \\
+\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(izq_i\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(izq_{i_0} \leq 0\) y que maximice la distancia entre 0 y \(der_{i_0}\), para después repetir este paso, pero buscando \(i_1\) tal que \(izq_{i_1} \leq der_{i_0}\), y maximice la distancia entre \(der_{i_0}\) y \(der_{i_1}\), y así hasta, o no haber más aspersores (caso que no se puede resolver), o haber llenado el cuarto (caso que se encontró la solución optima, ver \textbf{\ref{sec:ej2-dem} Demostración}). \\ %TODO: Explicar qué es izq_i, y der_i
 En esencia, repitiendo el problema habiendo avanzado hacia cubrir todo el cuarto.
 
 \paragraph{} Como miramos cada aspersor una vez, el algoritmo resuelve el problema en \(\bigO{n}\) pasos, aunque tiene el overhead \(\bigO{n\ log(n)}\) de ordenar los aspersores. Por lo que el problema lo resolvemos en \(\bigO{n\ log(n)}\) pasos. %TODO: Complejidad de cálculos
@@ -29,7 +29,13 @@ En esencia, repitiendo el problema habiendo avanzado hacia cubrir todo el cuarto
 \subsection{Demostración}
 \label{sec:ej2-dem}
 
-%TODO: Demostración
+\paragraph{} Para la demostración planteamos:
+\begin{itemize}
+  \item \(izq_i\), y \(der_i\) como los lados izquierdo y derecho del rectángulo subyacente del aspersor \(i\). %TODO: Se va a más arriba
+  \item A \(\mathcal{S}\) el espacio de soluciones. Con \(S = s_1, \ldots, s_m \in \mathcal{S} \mid izq_{s_1} \leq 0 \land der_{s_m} \geq l \land der_{s_i} \leq izq_{s_{i+1}}\). \\
+  Se puede ver que para una instancia del problema, todas las soluciones \(S \in \mathcal{S}\) tienen el mismo largo, ya que para ser solución tienen que minimizar su largo. 
+  \item A \(G_k = g_1, \ldots, g_k\) la secuencia golosa luego de haber hecho \(k\) decisiones golosas. O sea que, \(izq_{g_1} \leq 0 \land g_{i+1} = max_j\{der_j - der_{g_i} \mid der_{g_i} \leq izq_j\}\).
+\end{itemize}
 
 Con esto, planteamos la estructura de cada \textbf{subproblema} y \textbf{decisión golosa} \textit{i} a resolver: \newline
 
@@ -37,36 +43,19 @@ Con esto, planteamos la estructura de cada \textbf{subproblema} y \textbf{decisi
 
 -\textit{Decisión golosa i}: De todos los aspersores cuyo límite izquierdo sea menor o igual a \textit{i}, es decir, que empiecen en \textit{i}, que es hasta donde tenemos cubierto, o antes, tomamos el aspersor que sea de máximo cubrimiento, lo cual según definimos será aquel que maximice \textbf{limiteDer(aspersor) - limiteIzq(aspersor)}. \newline
 
-Nos queda, por último, probar la correctitud del algoritmo. Por la forma en la que trabajamos con este tipo de ejercicios, donde el peso se pone en gran parte sobre la demostración, nos propusimos a ver que: \newline
+\paragraph{} Entonces queremos probar: \begin{itemize}
+  \item[\textbf{1)}] Cualquier solución óptima \(S = s_1, \ldots, s_m\) puede ser modificada para obtener una solución óptima que use una decisión golosa.
+  \item[\textbf{2)}] La secuencia \(G_k\) puede ser extendida a una solución óptima.
+\end{itemize}
 
-$\bullet$ Si tengo una solución optima puedo modificarla para que use una elección golosa (1). \newline
+\paragraph{} Primero probamos \textbf{1)}, que se puede ver porque si tomamos la solución ópitma \(S = s_1, \ldots, s_{k-1}, s_k, s_{k+1}, \ldots, s_m\) y armamos \(S' = s_1, \ldots, s_{k-1}, g_k, s_{k+1}, \ldots, s_m\) tal que \(g_k = max_j\{der_j - der_{s_{k-1}} | der_{s_{k-1}} \leq izq_j\}\), \(S'\) sigue siendo una solución óptima ya que \(der_{s_{k-1}} \leq izq_{g_k}\) y \(der_{g_k} \geq der_{s_k}\) por lo que \(der_{g_k} \leq izq_{s_{k+1}}\). \\
+De esta forma se puede seguir modificando a \(S\), hasta haber tomado \(m\) decisiones golosas y se llegaría a una secuencia golosa.
 
-$\bullet$ Si tengo una secuencia de k decisiones golosas, puedo extenderlas para llegar a una óptima (2).\newline
-
-Lo que queremos con esto, es probar que el algoritmo goloso propuesto produce una solución óptima. \newline \newline 
-
-Comenzamos probando \textbf{(1)}: Queremos ver que \textbf{toda solución óptima para este problema es posible modificarla utilizando elecciones golosas}. Sabemos que existe la óptima, pero queremos aquella que use la golosa. Esto lo podemos demostrar de forma directa. \newline 
-
-Tomamos \(R_{k} = r_{1}, \ldots, r_{k}\) una solución óptima del subproblema \textit{i}, es decir, aquella que minimiza la cantidad de aspersores necesarios para cubrir desde el punto i hasta el final del rectángulo, y un \textit{r} \(\in R_{k}\) tal que \textit{r} representa un intervalo que contiene al \textit{i}. Seguro que existe un \textit{r} de estas características ya que no sería óptima la solución si hubiera algún pedazo del rectángulo no cubierto. \newline
-
-Como también habíamos mencionado, una decisión golosa en ese punto para resolver el subproblema \textit{i}, será tomar el aspersor de mayor extensión que cubra desde \textit{i} o antes al rectángulo.
-Si llamamos a ese aspersor \(G_{i}\), y nuestro objetivo es poder introducirlo dentro de la solución óptima, lo que podemos hacer es, partiendo de \(R_{k}\), crear \(R_{k}' = R_{k} \cup G_{i} - r\). \newline 
-
-Sabiendo que el aspersor $G_{i}$ es el de máximo cubrimiento que pasa por \textit{i}, entonces seguro que su cubrimiento sera $\geq$ al cubrimiento de \textit{r}, además de que, considerando que lo que hicimos fue básicamente reemplazar un aspersor por otro, seguiremos usando la mínima cantidad posible y cubriendo todo el rectángulo. Por lo tanto, $ R_{k}'$ es óptima utilizando una elección golosa, y en general, podremos fabricarnos todas las $ R_{k}''$ que deseemos reemplazando en cada subintervalo por la decisión golosa en ese punto, manteniéndonos en una solución óptima.\done\newline\newline
-
-Por último, probemos \textbf{(2)}: queremos ver que \textbf{luego de tomar \textit{k} decisiones golosas $G_{k}$, $\forall k > 0$, se puede extender hacia una solución óptima.} Veámoslo por inducción en \textit{k}. \newline 
-
-P(k): $G_{k}$ se puede extender a una solución óptima $\forall k > 0$. \newline
-
-\textbf{Caso base con k = 0}: Como $G_{0}$ = $\emptyset$, es decir, aún no hemos tomado ninguna decisión golosa, luego si existe una solución óptima, lo voy a poder extender a ella.  \newline
-
-\textbf{Paso inductivo}: queremos ver que si vale P(k), lo hace también P(k+1). 
-Nuestra HI es que tomadas \textit{k} decisiones golosas, podemos extendernos hacia una sol. óptima, y queremos saber si vale para k+1 decisiones golosas. \newline
-
-Sabemos que a medida que vamos tomando estas decisiones, el subproblema restante se hace cada vez más chico. Tomadas k elecciones golosas, y con el rectángulo cubierto hasta por ejemplo, \textit{k}, nos queda por resolver el subproblema \textit{k+1}, que encuentre los aspersores mínimos necesarios para cubrir el pedazo de rectángulo que se extiende desde k hasta el final del mismo. \newline
-
-Si \textbf{por HI} sabemos que existe un $\gamma$ tal que \(G_{1} \cup \ldots \cup G_{k} \cup \gamma\) cubren todo el rectángulo, luego $\gamma$ es óptima para el subproblema \textit{k+1}. Pero adicionalmente, por lo demostrado en \textbf{(1)}, toda solución óptima puede modificarse con elecciones golosas. \newline
-
-Por lo tanto, con el mismo cubrimiento y la misma cantidad de aspersores utilizados, tendremos también una solución óptima que utilice la decisión golosa  $G_{k+1}$. Esto quiere decir que habrá un $ \gamma'$ que asegure que \(G_{1} \cup \ldots \cup G_{k} \cup G_{k+1} \cup \gamma'\) cubren todo el rectángulo usando la mínima cantidad de aspersores y por lo tanto, $ \gamma'$ es óptima para el subproblema \textit{k+2}, probando así que $G_{k+1}$ se puede también extender a una solución óptima, \textbf{como queríamos ver}.\done\newline\newline
+\paragraph{} Y ahora probamos \textbf{2)} usando el método inductivo. \begin{itemize}
+  \item Definimos la proposición \(P(k) \equiv G_k\) se puede extender a una solución óptima.
+  \item[\textbf{Caso base:}] \(P(0)\). Es trivial porque \(G_0 \equiv \emptyset\).
+  \item[\textbf{Paso inductivo:}] \(P(k) \Rightarrow P(k+1)\). Si \(k+1 > m\) entonces es trivial, ya que \(G_k\) ya sería la solución óptima. \\
+    Lo revisamos entonces para \(k+1 \leq m\). Por \textbf{HI} tenemos que \(G_k = g_1, \ldots, g_k\) es extensible a una solución \(S = g_1, \ldots, g_k, s_{k+1}, \ldots, s_m\). Como \(S\) es solución sabemos que \(der_{g_k} \leq izq_{s_{k+1}} \land izq_{s_{k+2}} \leq der_{s_{k+1}}\), por lo que si tomamos \(g_{k+1} = max_j\{der_j - der_{g_k} \mid der_{g_k} \leq izq_j\}\) se mantiene que \(der_{g_k} \leq izq_{g_{k+1}}\), y como \(der_{s_{k+1}} \leq der_{g_{k+1}}\) se mantiene que \(izq_{s_{k+2}} \leq der_{g_{k+1}}\). Por lo que \(G_{k+1}\) es extensible a una solución. \done %TODO: Mencionar qué pasa con P(m)
+\end{itemize}
 
 \end{document}

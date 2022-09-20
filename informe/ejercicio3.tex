@@ -10,7 +10,7 @@
 
 \paragraph{} El tercer ejercicio nos pide trabajar con una variante del \textbf{Ejercicio \ref{sec:ej2}}.
 
-\paragraph{} Se trabaja sobre el mismo contexto, con un cuarto de largo \(l\) y ancho \(w\), y \(n\) aspersores de radio \(r_i\) y posición \((x_i, \frac{w}{2})\), con \(0 \leq x_i \leq l \in \mathbb{N}_0\). Pero ahora cada aspersor también tiene un costo \(c_i \in \mathbb{N}\). Y se busca cubrir todo el rectángulo sumando la menor cantidad de costo posible. Devolviendo el costo mínimo o \(-1\) si no se puede cubrir el rectángulo entero.
+\paragraph{} Se trabaja sobre el mismo contexto, con un cuarto de largo \(l\) y ancho \(w\), y \(n\) aspersores de radio \(r_i\) y posición \((x_i, \frac{w}{2})\), con \(0 \leq x_i \leq l \in \mathbb{N}_0\). Pero ahora cada aspersor también tiene un costo \(c_i \in \mathbb{N}\). Y se busca cubrir todo el rectángulo sumando la menor cantidad de costo posible. Devolviendo el costo mínimo ó \(-1\) si no se puede cubrir el rectángulo entero.
 
 \subsection{Algoritmo}
 \label{sec:ej3-algo}
@@ -27,7 +27,7 @@ Expresamos el problema con la siguiente función, donde los parámetros \(i\) y 
 \end{equation}
 
 \begin{equation}
- estaLleno(j) = (l = 0) \lor (i \neq 0 \land_L der_j \geq l)
+ estaLleno(j) = (l = 0) \lor (j \neq 0 \land_L der_j \geq l)
 \end{equation}
 
 \begin{equation}
@@ -38,6 +38,6 @@ Expresamos el problema con la siguiente función, donde los parámetros \(i\) y 
 Esta función tiene este comportamiento ya que existen dos casos, uno en el que el aspersor actual \(i\) forma parte de una solución parcial \(\mathbb{O}'\) de \(k\) elementos, y otro donde no lo hace. Si forma parte, la solución total al problema será \(costo_i + \sum_{o' \in \mathbb{O}'}costo_{o'}\). Mientras que si no lo hace, entonces el costo de la solución óptima \(\sum_{o' \in \mathbb{O}'}costo_{o'}\). Siempre y cuando exista ese óptimo, lo elegiremos, mientras que si no hay solución al problema, se devolverá \(+\infty\).
 
 \paragraph{} Como se puede ver, hay \(\bigO{n^2}\) instancias del problema, y para cada una se hacen dos llamadas recursivas, por lo que se llama \(\Omega(2^n)\) veces al problema. Entonces, resaltando que \(n^2 \ll 2^n\), podemos afirmar que hay \textbf{superposición de problemas} y nos conviene usar \textbf{Programación Dinámica}. \\
-Empleamos un enfoque \textbf{Bottom-Up} en el que llenamos iterativamente una matrix \(M \in \mathbb{N}_0^{n \times (n+1)}\) de izquierda a derecha y de abajo hacia arriba, de forma tal que \(M[i][j] = minCost(i, j)\). Y como no se pide reconstruir la solución y en las llamadas de la función siempre tenemos que \(i \leq j\), para ninguna instancia se revisan ni filas más arriba ni columnas más a izquierda, entonces podemos aprovechar y reducir la matriz a un sólo vector que se reuitiliza, por lo que el algoritmo queda con complejidad temporal de \(\bigO{n^2}\) y espacial de \(\bigO{n}\).
+Empleamos un enfoque \textbf{Bottom-Up} en el que llenamos iterativamente una matrix \(M \in \mathbb{N}_0^{n \times (n+1)}\) de izquierda a derecha y de abajo hacia arriba, de forma tal que \(M[i][j] = f(i, j)\). Y como no se pide reconstruir la solución y en las llamadas de la función siempre tenemos que \(i \leq j\), para ninguna instancia se revisan ni filas más arriba ni columnas más a izquierda, entonces podemos aprovechar y reducir la matriz a un sólo vector que se reuitiliza, por lo que el algoritmo queda con complejidad temporal de \(\bigO{n^2}\) y espacial de \(\bigO{n}\).
 
 \end{document}
