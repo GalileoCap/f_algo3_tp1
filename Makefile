@@ -13,6 +13,9 @@ default: all
 
 all: clean builddir ej1 ej2 ej3
 
+entrega: clean
+	zip entrega.zip Makefile README.md src -r9
+	
 builddir:
 	mkdir build
 
@@ -30,4 +33,4 @@ ej3_submit:
 	@echo TODO: ej3_submit
 
 clean:
-	rm -rf build 
+	rm -rf build entrega.zip
