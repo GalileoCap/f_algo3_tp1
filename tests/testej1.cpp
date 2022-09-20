@@ -1246,7 +1246,7 @@ TEST(TourCounterTest, countTours3) {
     // Paso 4, Paso 8, Paso 12
     TourCounter tc;
     tc.inputTests(4,4, Coord(1,2), Coord(2,3), Coord(2,1));
-    EXPECT_EQ(tc.countTours(), 0);
+    EXPECT_EQ(tc.countTours(), 1);
 }
 
 TEST(TourCounterTest, countTours4) {
@@ -1289,7 +1289,7 @@ TEST(TourCounterTest, tryTo3) {
     // Paso 4, Paso 8, Paso 12
     TourCounter tc;
     tc.inputTests(4,4, Coord(1,2), Coord(2,3), Coord(2,1));
-    EXPECT_EQ(tc.tryTo(UP), 0);
+    EXPECT_TRUE(tc.tryTo(UP));
 }
 
 TEST(TourCounterTest, tryTo4) {

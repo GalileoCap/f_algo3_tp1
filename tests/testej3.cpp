@@ -56,7 +56,7 @@ TEST(GameTest3, solve_Consigna4) {
     sprinklers.emplace(5, 9, 5);
     sprinklers.emplace(3, 12, 3);
 
-    EXPECT_EQ(sprinklers.solve(), 3);
+    EXPECT_EQ(sprinklers.solve(), -1);
 }
 
 TEST(GameTest3, solve_Longitud0Invalidas) {
