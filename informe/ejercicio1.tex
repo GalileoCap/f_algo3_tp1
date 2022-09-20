@@ -36,7 +36,25 @@ Tanto \(n, m\), y los check-ins, son parámetros de entrada que el programa lee 
 \begin{itemize}
   \item El casillero de destino. Como los check-ins tienen que ser visitados en tiempos equidistantes necesitamos que en el paso \(\dfrac{n*m*i}{4}\) estemos en el \(i\)-ésimo check-in (para \(0 \leq i \leq 4 \in \mathbb{N}_0\), contando a las posiciones \((0, 0)\), y \((0, 1)\) como check-in 0 y 4 respectivamente).
   \item Como sólo nos podemos mover de a un casillero por paso y sólo en las 4 direcciones, nos queda que entre las posiciones \((i, j)\) y \((l, k)\) se tienen mínimo \(|l-i| + |k-j|\) pasos, que es \textit{distancia Manhattan}. Por lo que nos fijamos que estemos a menos de \(|l-i| + |k-j|\) pasos del paso necesario para el check-in \((k, j)\) (con \((i, j)\) la posición actual).
-  \item Como no podemos pasar dos veces por el mismo casillero, nos fijamos de no cortar en dos partes desconectadas al mapa. Esto sucedería cuando nos podemos mover tanto a izquierda como a derecha, pero no hacia arriba o hacia abajo, y simétrico pudiendo moverse hacia arriba y hacia abajo, pero no a derecha o izquierda (ver Figura \ref{fig:ej1-mitad}).
+  \item Como no podemos pasar dos veces por el mismo casillero, nos fijamos de no cortar en dos partes desconectadas al mapa. Esto sucedería cuando nos podemos mover tanto a izquierda como a derecha, pero no hacia arriba o hacia abajo, y simétrico pudiendo moverse hacia arriba y hacia abajo, pero no a derecha o izquierda (ver Fig. \ref{fig:ej1-mitad}).
 \end{itemize}
+
+\begin{figure}[H]
+\centering
+
+\begin{tikzpicture}
+  \draw[step=1cm,gray,very thin] (0,0) grid (4,4);
+  \draw (0.5, 0.5) node{1};
+  \draw (0.5, 1.5) node{2};
+  \draw (1.5, 1.5) node{3};
+  \draw (2.5, 1.5) node{4};
+  \draw[green] (3.5, 1.5) node{5};
+  \draw[red] (1, 0) rectangle (4, 1);
+  \draw[blue] (0, 2) rectangle (4, 4);
+\end{tikzpicture}
+
+\caption{En esta figura se ve un camino posible en un mapa de \(4 \times 4\), y las dos areas desconectadas del mapa marcadas en rojo y en azul.}
+\label{fig:ej1-mitad}
+\end{figure}
 
 \end{document}
