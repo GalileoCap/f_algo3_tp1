@@ -8,7 +8,7 @@
 \subsection{Presentación}
 \label{sec:ej2-intro}
 
-\paragraph{} El segundo ejercicio presenta el problema \textit{UVa 10382, Watering Grass}\footnote{\url{TODO: URL}}. Que es un problema de combinatoria y minimización, buscando usar la mínima cantidad de aspersores para cubrir completamente un cuarto.
+\paragraph{} El segundo ejercicio presenta el problema \textit{UVa 10382, Watering Grass}\footnote{\url{https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=1323}}. Que es un problema de combinatoria y minimización, buscando usar la mínima cantidad de aspersores para cubrir completamente un cuarto.
 
 \paragraph{} El cuarto está definido como un rectángulo de largo \(l\) y ancho \(w\), con \(l, w \in \mathbb{N}_0\), y \(n\) aspersores, cada uno cubriendo un círculo de radio \(r_i\) desde la posición \((x_i, \frac{w}{2})\), con \(0 \leq x_i \leq l \in \mathbb{N}_0\). \\
 \(l, w, n\), y cada \(r_i, x_i\) son datos que entran por el standard input. Y el resultado se devuelve por el standard output.
@@ -16,32 +16,26 @@
 \subsection{Algoritmo}
 \label{sec:ej2-algo}
 
-\paragraph{} El problema requiere calcular el area del rectángulo que cada aspersor cubre. Pero se puede ver que de cada aspersor sólo nos importa el area rectangular entre los puntos donde interseca con el rectángulo del cuarto, ya que el area cubierta afuera sólo puede ser ocupada por el area rectangular de otro aspersor o dejaría un area sin cubrir por ningún aspersor (ver Figura \ref{fig:two-sprinlers}). \\
-\indent Entonces los aspersores con radio \(r_i < \frac{w}{2}\) pueden ser ignorados, ya que no llegan a intersecar con el lado del rectángulo. Y para los aspersores que quedan se los considera no como círculos, sino como su rectángulo subyacente (ver Figura \ref{fig:simple-sprinkle}).
+\paragraph{} El problema requiere calcular el area del rectángulo que cada aspersor cubre. Pero se puede ver que de cada aspersor sólo nos importa el area rectangular entre los puntos donde interseca con el rectángulo del cuarto, ya que el area cubierta afuera sólo puede ser ocupada por el area rectangular de otro aspersor o dejaría un area sin cubrir por ningún aspersor (ver Figuras \ref{fig:simple-sprinkle} y \ref{fig:two-sprinlers}). \\
+\indent Entonces los aspersores con radio \(r_i < \frac{w}{2}\) pueden ser ignorados, ya que no llegan a intersecar con el lado del rectángulo. Y para los aspersores que quedan se los considera no como círculos, sino como su rectángulo subyacente (ver Figura \ref{fig:simple-sprinkle}). \\
+Tomamos \(izq_i\), y \(der_i\) como el lado izquierdo y derecho del rectángulo subyacente del aspersor \(i\).
 
 %TODO: Figura rectángulo y círculos
 
-\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(izq_i\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(izq_{i_0} \leq 0\) y que maximice la distancia entre 0 y \(der_{i_0}\), para después repetir este paso, pero buscando \(i_1\) tal que \(izq_{i_1} \leq der_{i_0}\), y maximice la distancia entre \(der_{i_0}\) y \(der_{i_1}\), y así hasta, o no haber más aspersores (caso que no se puede resolver), o haber llenado el cuarto (caso que se encontró la solución optima, ver \textbf{\ref{sec:ej2-dem} Demostración}). \\ %TODO: Explicar qué es izq_i, y der_i
-En esencia, repitiendo el problema habiendo avanzado hacia cubrir todo el cuarto.
+\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(izq_i\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(izq_{i_0} \leq 0\) y que maximice la distancia entre 0 y \(der_{i_0}\), para después repetir este paso, pero buscando \(i_1\) tal que \(izq_{i_1} \leq der_{i_0}\), y maximice la distancia entre \(der_{i_0}\) y \(der_{i_1}\), y seguir tomando decisiones golosas hasta, o no haber más aspersores (caso que no se puede resolver), o haber llenado el cuarto (caso que se encontró la solución optima, ver \textbf{\ref{sec:ej2-dem} Demostración}). \\
+En esencia, resolviendo subproblemas avanzando hacia cubrir todo el cuarto.
 
-\paragraph{} Como miramos cada aspersor una vez, el algoritmo resuelve el problema en \(\bigO{n}\) pasos, aunque tiene el overhead \(\bigO{n\ log(n)}\) de ordenar los aspersores. Por lo que el problema lo resolvemos en \(\bigO{n\ log(n)}\) pasos. %TODO: Complejidad de cálculos
+\paragraph{} Como miramos cada aspersor una vez, el algoritmo resuelve el problema en \(\bigO{n}\) pasos, aunque tiene el overhead \(\bigO{n\ log(n)}\) de ordenar los aspersores. Por lo que el problema lo resolvemos en \(\bigO{n\ log(n)}\) pasos. %TODO: Complejidad de cálculos
 
 \subsection{Demostración}
 \label{sec:ej2-dem}
 
 \paragraph{} Para la demostración planteamos:
 \begin{itemize}
-  \item \(izq_i\), y \(der_i\) como los lados izquierdo y derecho del rectángulo subyacente del aspersor \(i\). %TODO: Se va a más arriba
   \item A \(\mathcal{S}\) el espacio de soluciones. Con \(S = s_1, \ldots, s_m \in \mathcal{S} \mid izq_{s_1} \leq 0 \land der_{s_m} \geq l \land der_{s_i} \leq izq_{s_{i+1}}\). \\
   Se puede ver que para una instancia del problema, todas las soluciones \(S \in \mathcal{S}\) tienen el mismo largo, ya que para ser solución tienen que minimizar su largo. 
   \item A \(G_k = g_1, \ldots, g_k\) la secuencia golosa luego de haber hecho \(k\) decisiones golosas. O sea que, \(izq_{g_1} \leq 0 \land g_{i+1} = max_j\{der_j - der_{g_i} \mid der_{g_i} \leq izq_j\}\).
 \end{itemize}
-
-Con esto, planteamos la estructura de cada \textbf{subproblema} y \textbf{decisión golosa} \textit{i} a resolver: \newline
-
--\textit{Subproblema i}: Hallar la mínima cantidad de aspersores requeridos con el que podamos cubrir el  rectángulo de forma tal que lo hagamos desde el extremo \textit{i} (visto horizontalmente) hasta el final del rectángulo.\newline
-
--\textit{Decisión golosa i}: De todos los aspersores cuyo límite izquierdo sea menor o igual a \textit{i}, es decir, que empiecen en \textit{i}, que es hasta donde tenemos cubierto, o antes, tomamos el aspersor que sea de máximo cubrimiento, lo cual según definimos será aquel que maximice \textbf{limiteDer(aspersor) - limiteIzq(aspersor)}. \newline
 
 \paragraph{} Entonces queremos probar: \begin{itemize}
   \item[\textbf{1)}] Cualquier solución óptima \(S = s_1, \ldots, s_m\) puede ser modificada para obtener una solución óptima que use una decisión golosa.

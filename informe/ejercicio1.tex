@@ -34,9 +34,9 @@ Tanto \(n, m\), y los check-ins, son parámetros de entrada que el programa lee 
 
 \subparagraph{Restrictivas y Preventivas (o de Optimalidad)}
 \begin{itemize}
-  \item El casillero de destino. Como los check-ins tienen que ser visitados en tiempos equidistantes necesitamos que en el paso \(\dfrac{n*m*i}{4}\) estemos en el \(i\)-ésimo check-in (para \(0\leq i \leq 4 \in \mathbb{N}\), contando a las posiciones \((0, 0)\), y \((0, 1)\) como check-in 0 y 4 respectivamente).
-  \item Como sólo nos podemos mover de a un casillero por paso y sólo en las 4 direcciones, nos queda que entre las posiciones \((i, j)\) y \((l, k)\) se tienen mínimo \(|l-i| + |k-j|\) pasos. Por lo que nos fijamos que estemos a menos de \(|l-i| + |k-j|\) pasos del paso necesario para el check-in \((k, j)\) (con \((i, j)\) la posición actual). %TODO: Mencionar distancia Manhattan
-  \item TODO: Cortar a la mitad
+  \item El casillero de destino. Como los check-ins tienen que ser visitados en tiempos equidistantes necesitamos que en el paso \(\dfrac{n*m*i}{4}\) estemos en el \(i\)-ésimo check-in (para \(0 \leq i \leq 4 \in \mathbb{N}_0\), contando a las posiciones \((0, 0)\), y \((0, 1)\) como check-in 0 y 4 respectivamente).
+  \item Como sólo nos podemos mover de a un casillero por paso y sólo en las 4 direcciones, nos queda que entre las posiciones \((i, j)\) y \((l, k)\) se tienen mínimo \(|l-i| + |k-j|\) pasos, que es \textit{distancia Manhattan}. Por lo que nos fijamos que estemos a menos de \(|l-i| + |k-j|\) pasos del paso necesario para el check-in \((k, j)\) (con \((i, j)\) la posición actual).
+  \item Como no podemos pasar dos veces por el mismo casillero, nos fijamos de no cortar en dos partes desconectadas al mapa. Esto sucedería cuando nos podemos mover tanto a izquierda como a derecha, pero no hacia arriba o hacia abajo, y simétrico pudiendo moverse hacia arriba y hacia abajo, pero no a derecha o izquierda (ver Figura \ref{fig:ej1-mitad}).
 \end{itemize}
 
 \end{document}
