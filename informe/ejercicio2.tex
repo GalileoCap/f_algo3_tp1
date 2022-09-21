@@ -58,7 +58,7 @@ Tomamos \(izq_i\), y \(der_i\) como el lado izquierdo y derecho del rectángulo 
 \label{fig:ej2-two-sprinklers}
 \end{figure}
 
-\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(izq_i\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(izq_{i_0} \leq 0\) y que maximice la distancia entre 0 y \(der_{i_0}\), para después repetir este paso, pero buscando \(i_1\) tal que \(izq_{i_1} \leq der_{i_0}\), y maximice la distancia entre \(der_{i_0}\) y \(der_{i_1}\), y seguir tomando decisiones golosas hasta, o no haber más aspersores (caso que no se puede resolver), o haber llenado el cuarto (caso que se encontró la solución optima, ver \textbf{\ref{sec:ej2-dem} Demostración}). \\
+\paragraph{} Partiendo de esa simplificación armamos un algoritmo goloso que primero ordena los aspersores según menor \(izq_i\). Y luego busca el \(i_0\) de izquierda a derecha que tenga \(izq_{i_0} \leq 0\) y que maximice la distancia entre 0 y \(der_{i_0}\), para después repetir este paso, pero buscando \(i_1\) tal que \(izq_{i_1} \leq der_{i_0}\), y maximice la distancia entre \(der_{i_0}\) y \(der_{i_1}\), y seguir tomando decisiones golosas hasta, o no haber más aspersores (caso que no se puede resolver), o haber llenado el cuarto (caso que se encontró la solución óptima, ver \textbf{\ref{sec:ej2-dem} Demostración}). \\
 En esencia, resolviendo subproblemas avanzando hacia cubrir todo el cuarto.
 
 \paragraph{} Como miramos cada aspersor una vez, el algoritmo resuelve el problema en \(\bigO{n}\) pasos, aunque tiene el overhead \(\bigO{n\ log(n)}\) de ordenar los aspersores. Por lo que el problema lo resolvemos en \(\bigO{n\ log(n)}\) pasos.
@@ -78,7 +78,7 @@ En esencia, resolviendo subproblemas avanzando hacia cubrir todo el cuarto.
   \item[\textbf{2)}] La secuencia \(G_k\) puede ser extendida a una solución óptima.
 \end{itemize}
 
-\paragraph{} Primero probamos \textbf{1)}, que se puede ver porque si tomamos la solución ópitma \(S = s_1, \ldots, s_{k-1}, s_k, s_{k+1}, \ldots, s_m\) y armamos \(S' = s_1, \ldots, s_{k-1}, g_k, s_{k+1}, \ldots, s_m\) tal que \(g_k = max_j\{der_j - der_{s_{k-1}} | der_{s_{k-1}} \leq izq_j\}\), \(S'\) sigue siendo una solución óptima ya que \(der_{s_{k-1}} \leq izq_{g_k}\) y \(der_{g_k} \geq der_{s_k}\) por lo que \(der_{g_k} \leq izq_{s_{k+1}}\). \\
+\paragraph{} Primero probamos \textbf{1)}, que se puede ver porque si tomamos la solución óptima \(S = s_1, \ldots, s_{k-1}, s_k, s_{k+1}, \ldots, s_m\) y armamos \(S' = s_1, \ldots, s_{k-1}, g_k, s_{k+1}, \ldots, s_m\) tal que \(g_k = max_j\{der_j - der_{s_{k-1}} | der_{s_{k-1}} \leq izq_j\}\), \(S'\) sigue siendo una solución óptima ya que \(der_{s_{k-1}} \leq izq_{g_k}\) y \(der_{g_k} \geq der_{s_k}\) por lo que \(der_{g_k} \leq izq_{s_{k+1}}\). \\
 De esta forma se puede seguir modificando a \(S\), hasta haber tomado \(m\) decisiones golosas y se llegaría a una secuencia golosa.
 
 \paragraph{} Y ahora probamos \textbf{2)} usando el método inductivo. \begin{itemize}
