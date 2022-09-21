@@ -16,21 +16,29 @@ all: clean builddir ej1 ej2 ej3
 entrega: clean
 	zip entrega.zip Makefile README.md src -r9
 	
-builddir:
-	mkdir build
+submit: ej1_submit ej2_submit ej3_submit
 
-ej%: ej%_submit
+ej%: builddir ej%_submit
 	$(CXX) $(CFLAGS) $($@DIR)/*.cc -o $(BUILDDIR)/$@
 	$(CXX) $(CFLAGS) -g -D DEBUG $($@DIR)/*.cc -o $(BUILDDIR)/$@_debug
 
-ej1_submit:
-	@echo "To submit EJ1 do: cat $(ej1DIR)/{utils.h,coord.h,map.h,tourCounter.h,*.cc} >> $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed '/#include \"/d' -i $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
+ej1_submit: builddir
+	@echo
+	@echo "To submit EJ1 do:"
+	@echo "cat $(ej1DIR)/{utils.h,coord.h,map.h,tourCounter.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
 
-ej2_submit:
-	@echo "To submit EJ2 do: cat $(ej2DIR)/{utils.h,sprinkler.h,*.cc} >> $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed '/#include \"/d' -i $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
+ej2_submit: builddir
+	@echo
+	@echo "To submit EJ2 do:"
+	@echo "cat $(ej2DIR)/{utils.h,sprinkler.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
 
-ej3_submit:
-	@echo TODO: ej3_submit
+ej3_submit: builddir
+	@echo
+	@echo "To submit EJ3 do:"
+	@echo "cat $(ej3DIR)/{utils.h,sprinkler.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
+
+builddir:
+	mkdir -p build
 
 clean:
 	rm -rf build entrega.zip
