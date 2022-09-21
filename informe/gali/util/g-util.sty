@@ -1,0 +1,15 @@
+\ProvidesPackage{g-util}[2022/09/15]
+\RequirePackage{g-util-math}
+
+\RequirePackage{ifthen}
+\newcommand{\ifthen}[2]{\ifthenelse{#1}{#2}{}}
+
+\RequirePackage{pgffor}
+\newcommand{\Repeat}[2]{\foreach \n in {1,...,#1}{#2}}
+
+\newcommand{\tab}{\phantom{mm}}
+
+%TODO: Move
+\RequirePackage{amsfonts, amsmath, amssymb, amsthm}
+\RequirePackage{hyperref, caption}
+\RequirePackage{graphicx, float, wrapfig}
