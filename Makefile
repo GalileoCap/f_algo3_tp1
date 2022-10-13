@@ -8,13 +8,15 @@ ej1DIR := $(SRCDIR)/ej1
 ej2DIR := $(SRCDIR)/ej2
 ej3DIR := $(SRCDIR)/ej3
 
+ENTREGA := Cappella_Mallol_Teplizky_Stemberg.zip
+
 default: all
 .PHONY: clean
 
 all: clean builddir ej1 ej2 ej3
 
 entrega: clean
-	zip entrega.zip Makefile README.md src -r9
+	zip $(ENTREGA) Makefile README.md src -r9
 	
 submit: ej1_submit ej2_submit ej3_submit
 
@@ -38,7 +40,7 @@ ej3_submit: builddir
 	@echo "cat $(ej3DIR)/{utils.h,sprinkler.h,*.cc} > $(BUILDDIR)/$@.cc && sed -i '/#pragma once/d' $(BUILDDIR)/$@.cc && sed -i '/#include \"/d' $(BUILDDIR)/$@.cc && $(CXX) $(CFLAGS) $(BUILDDIR)/$@.cc -o $(BUILDDIR)/$@"
 
 builddir:
-	mkdir -p build
+	mkdir -p $(BUILDDIR)
 
 clean:
-	rm -rf build entrega.zip
+	rm -rf $(BUILDDIR) $(ENTREGA)
